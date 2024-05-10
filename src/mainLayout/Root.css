@@ -1,0 +1,82 @@
+/* App.css */
+.light {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .dark {
+    background-color: #333;
+    color: #f0f0f0;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  input:checked + .toggle-slider {
+    background-color: #5c6ac4;
+  }
+  
+  input:focus + .toggle-slider {
+    box-shadow: 0 0 1px #5c6ac4;
+  }
+  
+  input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+  }
+  
+  /* Custom Styles */
+  .switch {
+    width: 60px;
+    height: 34px;
+  }
+  
+  .toggle-slider {
+    background-color: #d1d5db;
+  }
+  
+  .toggle-slider:before {
+    background-color: #fff;
+  }
+  
+  .toggle-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5px;
+  }
+  
