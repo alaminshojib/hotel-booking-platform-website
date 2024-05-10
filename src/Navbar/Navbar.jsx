@@ -80,14 +80,22 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                                     <Link className="px-4 py-2 rounded-full mt-1  font-medium text-gray-900" to="/login" >Login</Link>
                             }
 
-                             <div className="container justify-end px-4 mt-1">
+                            <div className="container justify-end px-4 mt-1">
                                 <p className=" py-2 rounded-full  font-medium text-gray-900">Change Theme :</p>
-                    <label className="switch">
-                        <input type="checkbox" onChange={toggleTheme} checked={isDarkMode} className="toggle-checkbox" />
-                        <span className="toggle-slider"></span>
-                        <span className="toggle-icon">{isDarkMode ? <FiMoon /> : <FiSun />}</span>
-                    </label>
-                </div>
+                                <label className="cursor-pointer grid place-items-center ">
+                                    <input onChange={toggleTheme} checked={isDarkMode} type="checkbox" value="synthwave" className="toggle theme-controller bg-amber-300 border-sky-400 [--tglbg:theme(colors.sky.500)] checked:bg-blue-300 checked:border-blue-800 checked:[--tglbg:theme(colors.blue.900)] row-start-1 col-start-1 col-span-2" />
+                                    {isDarkMode ?
+                                        <svg className="col-start-2 row-start-1 stroke-base-100 fill-base-100 m-1 " xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                                        :
+                                        <svg className="col-start-1 row-start-1 stroke-base-100 fill-base-100 m-1 " xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>
+
+                                    }
+
+
+                                </label>
+
+                            </div>
+
 
 
                         </div>
@@ -107,11 +115,18 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
 
                 <div className="container justify-end w-fit ml-2 hidden lg:block">
-                    <label className="switch">
-                        <input type="checkbox" onChange={toggleTheme} checked={isDarkMode} className="toggle-checkbox" />
-                        <span className="toggle-slider"></span>
-                        <span className="toggle-icon">{isDarkMode ? <FiMoon /> : <FiSun />}</span>
+                    <label className="cursor-pointer grid place-items-center ">
+                        <input onChange={toggleTheme} checked={isDarkMode} type="checkbox" value="synthwave" className="toggle theme-controller bg-amber-400 border-sky-400 [--tglbg:theme(colors.sky.500)] checked:bg-blue-100 checked:border-blue-800 checked:[--tglbg:theme(colors.blue.900)] row-start-1 col-start-1 col-span-2" />
+                        {isDarkMode ?
+                            <svg className="col-start-2 row-start-1 stroke-base-100 fill-base-100 m-1 " xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                            :
+                            <svg className="col-start-1 row-start-1 stroke-base-100 fill-base-100 m-1 " xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>
+
+                        }
+
+
                     </label>
+
                 </div>
 
                 <div className="navbar-end md:pr-3">

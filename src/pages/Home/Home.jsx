@@ -1,32 +1,26 @@
-import { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import Slider from "../../components/Slider";
+
+import NewsletterSignup from '../../components/NewsletterSignup';
+
+import Map from '../../components/Map';
+import Banner from '../../components/BannerPage';
+import FeaturedRooms from '../../components/FeaturedRooms';
+import UserReviews from '../../components/UserReviews';
 import { useLoaderData } from 'react-router-dom';
 
 
-
 const Home = () => {
-    useEffect(() => {
-        AOS.init({
-            duration: 800,
-            once: true,
-        });
-    }, []);
-    const craft = useLoaderData();
+  const hi=useLoaderData()
 
-
-
-
-    return (
-        <div>
-            <Slider key={craft._id} craft={craft} />
-            
-
-
-
-        </div>
-    );
+  return (
+    <div className="App">
+      Hi: {hi.length}
+      <Banner/>
+      <FeaturedRooms />
+      < Map />
+      <NewsletterSignup />
+      <UserReviews />
+    </div>
+  );
 };
 
 export default Home;

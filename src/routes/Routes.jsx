@@ -17,7 +17,7 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>,
-                loader: () => fetch('https://art-craft-store-server-delta.vercel.app/homeCrafts')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/bookings')
 
             },
 
