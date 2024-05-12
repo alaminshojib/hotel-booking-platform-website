@@ -55,7 +55,7 @@ const Rooms = () => {
     <div>
       <h1
         className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '
-        data-aos="fade-down" // Apply fade-up animation to this element
+         // Apply fade-up animation to this element
       >
         <Typewriter
           words={['Explore All Rooms']}
