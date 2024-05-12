@@ -52,10 +52,10 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
     const navLinks = <>
         <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/">Home</NavLink>
-        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/allCraftItems">Rooms</NavLink>
-        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/addCraftItem">My Bookings</NavLink>
-        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/myCraftList">About Us</NavLink>
-        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/myCraftList">Contact Us</NavLink>
+        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/rooms">Rooms</NavLink>
+        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/mybookings">My Bookings</NavLink>
+        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/about">About Us</NavLink>
+        <NavLink className={'px-4 py-2 rounded-full font-medium'} to="/contact">Contact Us</NavLink>
 
     </>
     return (
@@ -68,10 +68,10 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                         </div>
                         <div tabIndex={0} className="flex menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow bg-slate-200  rounded-box w-52 ">
                             <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/">Home</NavLink>
-                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/allCraftItems">Rooms</NavLink>
-                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/addCraftItem">My Bookings</NavLink>
-                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/myCraftList">About Us</NavLink>
-                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/myCraftList">Contact Us</NavLink>
+                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/rooms">Rooms</NavLink>
+                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/mybookings">My Bookings</NavLink>
+                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/about">About Us</NavLink>
+                            <NavLink className={'px-4 py-2 rounded-full text-gray-900 font-medium'} to="/contact">Contact Us</NavLink>
                             {
                                 user && user ?
                                     <Link onClick={handleSignOut} className=" px-4 py-2 mt-1 rounded-full  font-medium text-gray-900">Log Out</Link>
@@ -135,7 +135,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                         user && user ?
                             <div className="flex gap-4 items-center justify-center">
 
-                                <Link to={"/updateProfile"} className="w-7 h-7 rounded-full tooltip" data-tip={user.displayName}>
+                                <Link  className="w-7 h-7 rounded-full tooltip" data-tip={user.displayName}>
                                     <img alt="" className=" rounded-full ring-2 ring-offset-4 dark:bg-gray-500 dark:ring-violet-600 dark:ring-offset-gray-100 w-full h-full" src={user.photoURL} />
                                 </Link>
                                 <div>

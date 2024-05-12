@@ -34,7 +34,7 @@ const UserReviews = () => {
   }
 
   return (
-    <div>
+    <div >
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -43,6 +43,7 @@ const UserReviews = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
+
         {reviews.map((review) => (
           <SwiperSlide key={review.id}>
             <ReviewItem review={review} />

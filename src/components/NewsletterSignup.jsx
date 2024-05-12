@@ -1,61 +1,55 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const NewsletterSignup = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Simulate submitting data to a server
-    try {
-      // Here you can put your actual submission logic
-      // For now, let's just set subscription status to success after a short delay
-      // Replace this with actual submission logic using fetch or any other method
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubscriptionStatus('success');
-    } catch (error) {
-      setSubscriptionStatus('error');
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim() !== '') {
+      // You might want to add a logic here to actually subscribe the email
+      // For demonstration purpose, I'm just setting subscribed state to true
+      setSubscribed(true);
+      Swal.fire({
+        title: "Good job!",
+        text: "Thanks for subscribing!",
+        icon: "success"
+      });
+    
+    } else {
+      Swal.fire({
+        title: "Oops!",
+        text: "Please enter a valid email address!",
+        icon: "warning"
+      });
+      
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="w-full ">
-        <div className="container flex flex-col flex-wrap content-center justify-center p-4 py-20 mx-auto md:p-10">
-          <h1 className="text-5xl antialiased font-semibold leading-none text-center ">Get Our Updates</h1>
-          <p className="pt-2 pb-8 text-xl antialiased text-center ">Find out about events and other news</p>
-          <div className="flex flex-row space-x-2">
-            <input aria-label="Your first name"
-              name="fields[first_name]"
-              placeholder="Your first name"
-              type="text"
-              onChange={handleNameChange}
-              value={name}
-              className="w-3/5 p-3 rounded-lg sm:w-2/3" />
-            <input aria-label="Your email address"
-              name="email_address"
-              placeholder="Your email address"
-              required
-              type="email"
-              onChange={handleEmailChange}
-              value={email}
-              className="w-3/5 p-3 rounded-lg sm:w-2/3" />
-            <button type="submit" className="w-2/5 p-3 font-semibold rounded-lg sm:w-1/3 bg-violet-400 dark:bg-violet-600 text-gray-900 dark:text-gray-50">Subscribe</button>
-          </div>
-          {subscriptionStatus === 'success' && <p className="text-green-500">Subscription successful!</p>}
-          {subscriptionStatus === 'error' && <p className="text-red-500">Failed to subscribe. Please try again later.</p>}
-        </div>
-      </div>
-    </form>
+    <div className='mx-auto justify-center text-center my-10 w-3/5 pt-5'>
+      <h1 className='text-3xl font-bold py-3'>Stay Updated with Exclusive Offers</h1>
+      <p className='text-gray-500 py-4 w-4/5 mx-auto text-center'>
+        Be the first to know about our latest promotions, special deals, and exclusive offers by subscribing to our newsletter.
+      </p>
+      <form onSubmit={handleSubscribe} className="flex flex-row w-3/6 mx-auto justify-center py-7">
+        <input
+          name="email"
+          type="email"
+          placeholder="example@email.com"
+          className="w-3/5 p-3 rounded-l-lg sm:w-2/3 bg-gray-300"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="p-3 font-semibold rounded-r-lg sm:w-1/3 dark:bg-violet-600 dark:text-gray-50"
+        >
+          {subscribed ? 'Subscribed' : 'Subscribe'}
+        </button>
+      </form>
+    </div>
   );
 };
 

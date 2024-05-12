@@ -1,24 +1,23 @@
 
 import NewsletterSignup from '../../components/NewsletterSignup';
 
-import Map from '../../components/Map';
 import Banner from '../../components/BannerPage';
 import FeaturedRooms from '../../components/FeaturedRooms';
 import UserReviews from '../../components/UserReviews';
-import { useLoaderData } from 'react-router-dom';
+import MapDetails from '../../components/MapDetails';
+import Trustplot from '../../components/Trustplot';
 
 
 const Home = () => {
-  const hi=useLoaderData()
 
   return (
     <div className="App">
-      Hi: {hi.length}
       <Banner/>
       <FeaturedRooms />
-      < Map />
+      < MapDetails></MapDetails>
       <NewsletterSignup />
       <UserReviews />
+      <Trustplot></Trustplot>
     </div>
   );
 };
