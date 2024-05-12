@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdOutlineReviews, MdDeleteForever, MdUpdate } from "react-icons/md";
@@ -86,8 +80,14 @@ const Booked = ({ data, setRooms }) => {
                     const remaining = data.filter(item => item._id !== roomId);
                     setRooms(remaining);
 
-
-
+                    // Show success message to the user
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: 'Your booking has been deleted.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                 }
             }
             
@@ -178,8 +178,7 @@ const Booked = ({ data, setRooms }) => {
         }
     };
 
-
-    const handleSubmitReview = async (roomId, userEmail) => {
+    const handleSubmitReview = async () => {
         // Open the review modal
         setShowReviewModal(true);
     };
@@ -188,24 +187,24 @@ const Booked = ({ data, setRooms }) => {
         try {
             setShowReviewModal(false);
             setLoading(true);
-
+    
             // Check if the current user is authorized to submit a review
-            if (user.email !== userEmail) {
+            if (user.email !== data.userEmail) {
                 throw new Error('You are not authorized to submit a review for this room.');
             }
-
+    
             // Check if review text is empty
             if (!reviewText.trim()) {
                 throw new Error('Please write a review before submitting.');
             }
-
+    
             // Prepare the review object
             const reviewData = {
-                roomId: roomId,
-                userEmail: userEmail,
+                roomId: data.roomId,
+                userEmail: data.userEmail,
                 reviewText: reviewText
             };
-
+    
             // Send the review data to the server
             const response = await fetch('http://localhost:5000/reviews', {
                 method: 'POST',
@@ -214,14 +213,14 @@ const Booked = ({ data, setRooms }) => {
                 },
                 body: JSON.stringify(reviewData)
             });
-
+    
             if (!response.ok) {
                 throw new Error('Failed to submit review.');
             }
-
+    
             // Clear review text
             setReviewText('');
-
+    
             // Show success message to the user
             Swal.fire({
                 icon: 'success',
@@ -244,37 +243,37 @@ const Booked = ({ data, setRooms }) => {
     };
     
 
-
     return (
         <div>
             {/* Add a modal for writing reviews */}
             {showReviewModal && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
-                    <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
-                        <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
-                        <textarea
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            placeholder="Write your review here..."
-                            className="border border-gray-300 rounded p-2 mb-4 w-full h-40"
-                        ></textarea>
-                        <div className="flex justify-center gap-5 items-center">
-                            <button
-                                onClick={handleReviewSubmit}
-                                disabled={loading || !reviewText.trim()}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-                            >
-                                {loading ? 'Submitting...' : 'Submit Review'}
-                            </button>
-                            <button
-                                onClick={() => setShowReviewModal(false)}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+                    <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
+                    <textarea
+                        value={reviewText}
+                        onChange={(e) => setReviewText(e.target.value)}
+                        placeholder="Write your review here..."
+                        className="border border-gray-300 rounded p-2 mb-4 w-full h-40"
+                    ></textarea>
+                    <div className="flex justify-center gap-5 items-center">
+                        <button
+                            onClick={handleReviewSubmit}
+                            disabled={loading || !reviewText.trim()}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+                        >
+                            {loading ? 'Submitting...' : 'Submit Review'}
+                        </button>
+                        <button
+                            onClick={() => setShowReviewModal(false)}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </div>
+            </div>
+            
             )}
 
             {loading && <span className="loading loading-bars loading-lg mx-auto justify-center items-center flex flex-col"></span>
