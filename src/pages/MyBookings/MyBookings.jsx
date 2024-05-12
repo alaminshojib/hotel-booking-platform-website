@@ -5,6 +5,7 @@ import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 import axios from 'axios';
 import Booked from './Booked';
+import EmptyState from '../../components/EmptyState';
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -53,11 +54,27 @@ const MyBookings = () => {
             <p className='text-gray-500 pb-5 mx-auto justify-center text-center w-3/5'>Enjoy luxurious accommodations in our Executive Suite, featuring spacious living areas, stunning city views, and top-notch amenities for a truly indulgent stay..</p>
 
 
-            <div className='grid grid-cols-1 mx-auto justify-center'>
-                {bookings.map(booking => (
-                    <Booked key={booking._id} data={booking} />
-                ))}
-            </div>
+
+            {bookings.length < 1 ? (
+                    <EmptyState
+                        message="No booked room was found !"
+                        address="/rooms"
+                        label="Book Now"
+                    />
+                ) : (
+                  <div className='grid grid-cols-1 mx-auto justify-center'>
+                  {bookings.map(booking => (
+                      <Booked key={booking._id} data={booking} />
+                  ))}
+              </div>
+                
+            )}
+
+
+
+
+
+           
             <div className="flex justify-center m-4">
                 <button
                     onClick={() => changePage(currentPage - 1)}

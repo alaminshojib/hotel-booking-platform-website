@@ -67,11 +67,12 @@ const Booked = ({ data, setRooms }) => {
                         'Your room item has been canceled!',
                         'success'
                     );
-                   
+
 
                     // Filter out the deleted booking from the state
                     const remaining = data.filter(item => item._id !== roomId);
                     setRooms(remaining);
+
                 }
             }
         } catch (error) {
@@ -84,7 +85,7 @@ const Booked = ({ data, setRooms }) => {
             );
         } finally {
             setIsDeleting(false);
-            navigate('/mybookings');
+            window.location.reload()
         }
     };
 
