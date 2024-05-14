@@ -21,6 +21,7 @@ const Booked = ({ data, setRooms }) => {
     const [showReviewModal, setShowReviewModal] = useState(false); // State to control review modal visibility
 
     const [rating, setRating] = useState(null); // State to store the rating
+    const [reviewError, setReviewError] = useState(null); // State to store review error message
 
     const [displayName, setDisplayName] = useState('');
 
@@ -169,6 +170,8 @@ const Booked = ({ data, setRooms }) => {
         }
     };
 
+    
+
     const handleSubmitReview = async (e) => {
         e.preventDefault(); // Prevent default form submission behavior
         try {
@@ -202,7 +205,7 @@ const Booked = ({ data, setRooms }) => {
             }
         } catch (error) {
             console.error('Error submitting review:', error);
-            setReviewError(error.message); // Set review error message
+            setReviewError('You have already reviewed this room'); // Set review error message
         } finally {
             setLoading(false);
             setShowReviewModal(false); // Set loading to false after data fetching completes
@@ -218,6 +221,20 @@ const Booked = ({ data, setRooms }) => {
 
     return (
         <div>
+             {reviewError && (
+                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                    <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+                        <h2 className="text-2xl font-bold mb-4">Thanks for the interest</h2>
+                        <p className="mb-4">{reviewError}</p>
+                        <button
+                            className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
+                            onClick={() => setReviewError(null)} // Clear the review error message
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
             {showReviewModal && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg text-black shadow-lg max-w-md">
