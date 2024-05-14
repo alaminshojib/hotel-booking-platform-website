@@ -45,6 +45,7 @@ const AuthProvider = ({ children }) => {
     }
 
     // Subscribe to auth state changes
+   
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             const userEmail = currentUser?.email || user?.email;
@@ -55,7 +56,7 @@ const AuthProvider = ({ children }) => {
             // if user exists then issue a token
             if (currentUser) {
                 axios.post('https://hotel-booking-platform-server-side.vercel.app/jwt', loggedUser, { withCredentials: true })
-                .then(res => {
+                    .then(res => {
                         console.log('token response', res.data);
                     })
             }
@@ -72,6 +73,12 @@ const AuthProvider = ({ children }) => {
             return unsubscribe();
         }
     }, [])
+
+
+
+
+
+
 
     // Authentication information
     const authInfo = {

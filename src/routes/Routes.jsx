@@ -50,7 +50,6 @@ const router = createBrowserRouter([
             {
                 path: '/featuredRooms',
                 element: <FeaturedRooms></FeaturedRooms>,
-                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
             },
            
             {

@@ -22,6 +22,7 @@ const MyBookings = () => {
                 setLoading(true);
                 setError(null);
                 const response = await axios.get('https://hotel-booking-platform-server-side.vercel.app/bookings', {
+                    withCredentials: true,
                     params: {
                         email: user.email
                     }
@@ -95,9 +96,8 @@ const MyBookings = () => {
                                 <button
                                     key={i + 1}
                                     onClick={() => paginate(i + 1)}
-                                    className={`mx-1 py-2 px-4 rounded-lg focus:outline-none ${
-                                        currentPage === i + 1 ? 'font-bold text-blue-500' : ''
-                                    }`}
+                                    className={`mx-1 py-2 px-4 rounded-lg focus:outline-none ${currentPage === i + 1 ? 'font-bold text-blue-500' : ''
+                                        }`}
                                 >
                                     {i + 1}
                                 </button>
@@ -105,9 +105,8 @@ const MyBookings = () => {
                         <button
                             onClick={() => paginate(currentPage + 1)}
                             disabled={currentPage === Math.ceil(filteredRooms.length / bookingsPerPage)}
-                            className={`ml-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none ${
-                                currentPage === Math.ceil(filteredRooms.length / bookingsPerPage) ? 'cursor-not-allowed' : ''
-                            }`}
+                            className={`ml-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none ${currentPage === Math.ceil(filteredRooms.length / bookingsPerPage) ? 'cursor-not-allowed' : ''
+                                }`}
                         >
                             <GrLinkNext />
                         </button>

@@ -57,9 +57,7 @@ const RoomDetails = () => {
       const userName = user.displayName;
 
       try {
-        const response = await axios.get(
-          `https://hotel-booking-platform-server-side.vercel.app/bookings?userEmail=${userEmail}&roomId=${id}`
-        );
+        const response = await axios.get(`https://hotel-booking-platform-server-side.vercel.app/bookings?userEmail=${userEmail}&roomId=${id}`,{ withCredentials: true });
         const existingBookings = response.data;
 
         if (existingBookings.length > 0) {

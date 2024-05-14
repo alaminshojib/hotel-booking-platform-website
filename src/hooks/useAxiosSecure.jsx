@@ -1,16 +1,16 @@
 import axios from "axios";
-import { useEffect } from "react";
-import useAuth from "./useAuth";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 
 const axiosSecure = axios.create({
-    baseURL: 'https://car-doctor-server-topaz-one.vercel.app',
+    baseURL: 'https://hotel-booking-platform-server-side.vercel.app',
     withCredentials: true
 });
 
 const useAxiosSecure = () => {
-    const { logOut } = useAuth();
+    const { logOut } = useContext(AuthContext);
     const navigate = useNavigate();
     useEffect(() => {
         axiosSecure.interceptors.response.use(res => {
