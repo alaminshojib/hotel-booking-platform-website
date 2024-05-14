@@ -4,8 +4,10 @@
 # Roomies - Your Ultimate Accommodation Solution
 
 Live website link : [Roomies website](https://hotel-booking-platform-2229c.web.app/)
+
 Client-side Code GitHub link : [Roomies website frontend Code](https://github.com/Porgramming-Hero-web-course/b9a11-client-side-alaminshojib)
-Client-side Code GitHub link : [Roomies website backend Code](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-alaminshojib)
+
+Server-side Code GitHub link : [Roomies website backend Code](https://github.com/Porgramming-Hero-web-course/b9a11-server-side-alaminshojib)
 
 
 ## Welcome to Roomies!
