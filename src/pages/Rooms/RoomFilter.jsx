@@ -23,14 +23,14 @@ const RoomFilter = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center items-center my-4">
+    <form onSubmit={handleSubmit} className="flex justify-center items-center my-2 lg:my-4">
       <input
         type="number"
         placeholder="Min Price"
         required
         value={minPrice}
         onChange={(e) => setMinPrice(e.target.value)}
-        className="border p-2 mr-2 bg-gray-300"
+        className="border rounded-l-lg p-1 px-1 text-black mr-2 bg-gray-300 w-32 lg:w-52"
       />
       <input
         type="number"
@@ -38,10 +38,10 @@ const RoomFilter = ({ onSubmit }) => {
         required
         value={maxPrice}
         onChange={(e) => setMaxPrice(e.target.value)}
-        className="border p-2 mr-2  bg-gray-300"
+        className="border p-1 px-1 mr-2 rounded-r-lg text-black bg-gray-300 w-32 lg:w-52"
       />
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">Apply Filter</button>
-      <button type="button" onClick={handleReset} className="bg-gray-300 text-gray-700 p-2 rounded-md ml-2">Reset</button>
+      <button type="submit" className="bg-blue-500 text-white  btn-sm rounded-md">Apply Filter</button>
+      <button type="button" onClick={handleReset} className="bg-gray-300 btn-sm text-gray-700  rounded-md ml-2">Reset</button>
     </form>
   );
 };

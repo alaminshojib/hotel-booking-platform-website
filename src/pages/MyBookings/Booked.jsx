@@ -309,11 +309,10 @@ const Booked = ({ data, setRooms }) => {
                 </div>
             )}
 
-            {loading && <span className="loading loading-bars loading-lg mx-auto justify-center items-center flex flex-col"></span>
-            }
+           
             {/* Update Booking Summary Modal */}
             {showBookingSummary && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Update Booking</h2>
                         <p className="mb-4">Room: {selectedRoom.name}</p>
@@ -351,7 +350,7 @@ const Booked = ({ data, setRooms }) => {
             <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-2 h-40 w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1 hover:bg-green-100 cursor-pointer" key={data._id}>
                 <div>
                     <Link className='tooltip tooltip-accent' to={`/roomDetails/${data.roomId}`} data-tip={"View Details"}>
-                        <div className="relative overflow-hidden h-36 mx-auto justify-center rounded-lg">
+                        <div className="relative overflow-hidden h-36 w-72 mx-auto justify-center rounded-lg">
                             <img
                                 className="object-cover h-36 w-full mx-auto justify-center rounded-lg"
                                 src={data.images[currentImageIndex]}
@@ -362,7 +361,7 @@ const Booked = ({ data, setRooms }) => {
                 </div>
                 <Link to={`/roomDetails/${data.roomId}`}>
                     <div>
-                        <div className="px-6 py-2 mx-auto justify-center w-2/3">
+                        <div className=" py-2 mx-auto justify-center w-2/3">
                             <div className="font-bold text-sm mb-1">{data.name}</div>
                             <p className="text-orange-400 font-bold">
                                 Price : ${data.price_per_night}
@@ -370,9 +369,7 @@ const Booked = ({ data, setRooms }) => {
                             <p className="text-gray-600 text-xs">
                                 Room size: <span className='font-bold'>{data.room_size}</span>
                             </p>
-                            <p className="text-gray-600 text-xs">
-                                Book Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
-                            </p>
+                            
                             <p className="text-green-600 text-xs">
                                 Special Offer: <span className='font-bold'>{data.special_offers || "No offer available"}</span>
                             </p>
@@ -381,29 +378,36 @@ const Booked = ({ data, setRooms }) => {
                     </div></Link>
                 <div>
                     <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
-                        <div
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-                            onClick={() => handleUpdateDate(data._id, data)}
-                        >
-                            <MdUpdate /><p>Update</p>
-                        </div>
-                        <div
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+                    <p className="text-gray-600 text-lg font-semibold text-center">
+                                Booking Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
+                            </p>
+                        <Link
+                            className="bg-blue-500 hover:bg-blue-700 text-white  font-bol py-1  px-4 rounded-lg"
                             onClick={handleReviewButtonClick}
                         >
-                            <MdOutlineReviews /><p>Review </p>
-                        </div>
-                        <div
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                            onClick={() => handleDelete(data.roomId)}
-                            disabled={isDeleting}
-                        >
-                            {isDeleting ? 'Deleting...' : <><MdDeleteForever /><p>Cancel </p></>}
+                            <div className='flex justify-center gap-1 items-center'><MdOutlineReviews /><p>Leave a Review </p></div>
+                        </Link>
+
+                        <div className="flex gap-2 mx-auto justify-center">
+                            <Link
+                                className="bg-blue-500 hover:bg-blue-700 text-white  font-bol   px-4 rounded-lg"
+                                onClick={() => handleUpdateDate(data._id, data)}
+                            >
+                                <div className='flex justify-center gap-1 items-center'><MdUpdate /><p>Update </p></div>
+                            </Link>
+                            <Link
+                                className="bg-red-500 hover:bg-red-700 text-white font-bol py-1  px-4 rounded-lg"
+                                onClick={() => handleDelete(data.roomId)}
+                                disabled={isDeleting}
+                            >
+                                {isDeleting ? 'Canceling...' : <div className='flex justify-center gap-1 items-center'><MdDeleteForever /><p>Cancel </p></div>}
+                            </Link>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 };
 

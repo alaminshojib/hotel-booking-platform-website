@@ -119,7 +119,7 @@ const RoomDetails = () => {
               </div>
             </div>
 
-            <div className="flex flex-col flex-1 mx-auto drop-shadow-xl md:p-8 p-5">
+            <div className="flex flex-col flex-1  drop-shadow-xl md:p-8 mx-5 p-5">
               <div className="md:text-lg font-semibold my-2">
                 <span>Price : ${price_per_night}</span>
               </div>
