@@ -6,12 +6,12 @@ const Footer = () => {
 
     return (<div className='border-t-2 shadow-md rounded-lg'>
         <footer className="px-4 divide-y ">
-	<div className="container flex flex-col justify-between py-5 mx-auto space-y-6 lg:flex-row lg:space-y-0">
+	<div className="container flex flex-col justify-between py-2 mx-auto  lg:flex-row lg:space-y-0">
 		<div className="lg:w-1/3 justify-center text-center flex flex-col lg:pl-10">
 			<a rel="noopener noreferrer" href="#" className="flex justify-center space-x-3 lg:justify-start">
 				<div className="flex items-center justify-center w-12 h-12 rounded-full ">
-				<img className=" self-center w-8 h-8 lg:w-10 lg:h-10 sm:block shadow-lg rounded-md " src="/assets/arts.jpg" alt="" />				</div>
-				<span className="self-center text-2xl font-semibold"> C͡r͡a͡ƒ͡t͡i͡q͡u͡e </span>
+				<img className=" self-center w-8 h-8 lg:w-10 lg:h-10 sm:block shadow-lg rounded-md " src="https://i.ibb.co/ZmYMmKJ/logo.webp" alt="" />				</div>
+				<span className="self-center text-2xl font-semibold text-bungee text-blue-500"> Roomies </span>
 			</a>
 		</div>
 		<div className="grid grid-cols-2 text-sm gap-x-3 gap-y-6 lg:w-2/3 sm:grid-cols-4 p-4">
@@ -79,7 +79,7 @@ const Footer = () => {
 			</div>
 		</div>
 	</div>
-	<div className="py-6 text-sm text-center ">© 2024 C͡r͡a͡ƒ͡t͡i͡q͡u͡e Co. All rights reserved.</div>
+	<div className="py-6 text-sm text-center ">© 2024 Royal Roomies Co. All rights reserved.</div>
 </footer></div>
     );
 };

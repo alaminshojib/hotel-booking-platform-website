@@ -24,20 +24,20 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
 
             },
             {
                 path: '/rooms',
                 element: <Rooms></Rooms>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
 
 
             },
             {
                 path: '/rooms/:id',
                 element: <Rooms></Rooms>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
 
 
             },
@@ -45,24 +45,23 @@ const router = createBrowserRouter([
             {
                 path: '/roomDetails/:id',
                 element: <PrivateRoute><RoomDetails></RoomDetails></PrivateRoute>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
             },
             {
                 path: '/featuredRooms',
                 element: <FeaturedRooms></FeaturedRooms>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
             },
            
             {
                 path: '/mybookings',
                 element: <PrivateRoute><MyBookings></MyBookings></PrivateRoute>,
-                loader: () => fetch('http://localhost:5000/services')
 
             },
             {
                 path: '/bookNow',
                 element: <PrivateRoute><MyBookings></MyBookings></PrivateRoute>,
-                loader: () => fetch('http://localhost:5000/services')
+                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
 
             },
             {

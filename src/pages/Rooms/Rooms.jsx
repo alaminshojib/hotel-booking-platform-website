@@ -6,7 +6,6 @@ import { GrLinkNext } from "react-icons/gr";
 import { GrLinkPrevious } from "react-icons/gr";
 
 const Rooms = () => {
-
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +18,7 @@ const Rooms = () => {
   const fetchRooms = async () => {
     // Simulated fetch request to API endpoint
     // Replace with actual API call
-    const response = await fetch('http://localhost:5000/services');
+    const response = await fetch('https://hotel-booking-platform-server-side.vercel.app/services');
     const data = await response.json();
     setRooms(data);
     setFilteredRooms(data.slice(0, roomsPerPage)); // Initially, show first page of rooms
@@ -49,14 +48,10 @@ const Rooms = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-  
 
   return (
     <div>
-      <h1
-        className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '
-         // Apply fade-up animation to this element
-      >
+      <h1 className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '>
         <Typewriter
           words={['Explore All Rooms']}
           loop={0}
@@ -67,28 +62,26 @@ const Rooms = () => {
           typeWriterSpan={props => <span {...props} className="inline-block"/>}
         />
       </h1>
-      
       <p className='text-gray-500 pb-5 mx-auto justify-center text-center w-3/5'>Discover our range of comfortable and stylish rooms tailored to suit your needs. Browse through our selection and find your ideal stay.</p>
       <RoomFilter onSubmit={handleFilter} />
       <div className='grid grid-cols-1 mx-auto justify-center'>
-        {filteredRooms.map(room => (
-          <Room key={room._id} room={room} onClick={handleClickRoom} />
+        {rooms.length > 0 && filteredRooms.map(room => (
+          <Room key={room.name} room={room} onClick={handleClickRoom} />
         ))}
       </div>
       <div className="flex justify-center m-4">
         <button
           onClick={() => changePage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="mr-2 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none"
+          className="mr-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none"
         >
           <GrLinkPrevious />
-
         </button>
         {pageNumbers.map(number => (
           <button
             key={number}
             onClick={() => changePage(number)}
-            className={`mx-1 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none ${
+            className={`mx-1  hover:border-1 py-2 px-4 rounded-lg focus:outline-none ${
               currentPage === number ? 'font-bold text-blue-500' : ''
             }`}
           >
@@ -98,10 +91,9 @@ const Rooms = () => {
         <button
           onClick={() => changePage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="ml-2 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none"
+          className="ml-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none"
         >
           <GrLinkNext />
-
         </button>
       </div>
     </div>

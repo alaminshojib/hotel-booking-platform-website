@@ -4,38 +4,23 @@ import { MdOutlineReviews, MdDeleteForever, MdUpdate } from "react-icons/md";
 import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../providers/AuthProvider';
+import axios from 'axios';
 
 
 const Booked = ({ data, setRooms }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const navigate = useNavigate();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+    const [deletedSuccess, setDeletedSuccess] = useState(false);
     const [showBookingSummary, setShowBookingSummary] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [bookingDate, setBookingDate] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const [reviewText, setReviewText] = useState('');
-    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [showReviewModal, setShowReviewModal] = useState(false); // State to control review modal visibility
 
 
-    useEffect(() => {
-        if (data && data.images && data.images.length > 0) {
-            const interval = setInterval(() => {
-                setCurrentImageIndex((prevIndex) =>
-                    prevIndex === data.images.length - 1 ? 0 : prevIndex + 1
-                );
-            }, 3000);
-
-            return () => clearInterval(interval);
-        }
-    }, [data]);
-
-    const onClick = (roomId) => {
-        console.log("Clicked on room:", roomId);
-        // Implement booking or review functionality here
-    };
 
     const handleDelete = async (roomId) => {
         try {
@@ -63,12 +48,12 @@ const Booked = ({ data, setRooms }) => {
                 confirmButtonText: 'Yes, delete it!'
             })
 
-
             if (result.isConfirmed) {
                 setIsDeleting(true);
-                const response = await fetch(`http://localhost:5000/bookings/${data._id}`, {
+                const response = await fetch(`https://hotel-booking-platform-server-side.vercel.app/bookings/${data._id}`, {
                     method: 'DELETE'
                 });
+                navigate(0); // Navigate back to the previous page
 
                 if (!response.ok) {
                     throw new Error('Failed to delete room item');
@@ -81,6 +66,9 @@ const Booked = ({ data, setRooms }) => {
                     setRooms(remaining);
 
                     // Show success message to the user
+                    setDeletedSuccess(true); // Set deletedSuccess to true
+                    setTimeout(() => setDeletedSuccess(false), 2000); // Close the success message after 2 seconds
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Deleted!',
@@ -90,7 +78,7 @@ const Booked = ({ data, setRooms }) => {
                     });
                 }
             }
-            
+
         } catch (error) {
             console.error('Error deleting room item:', error);
             // Show error message to the user
@@ -103,7 +91,6 @@ const Booked = ({ data, setRooms }) => {
             setIsDeleting(false);
         }
     };
-
 
     const handleUpdateDate = (roomId, roomDetails) => {
         setSelectedRoom({ ...roomDetails, _id: roomId });
@@ -134,7 +121,7 @@ const Booked = ({ data, setRooms }) => {
             }
 
             // Perform the update action here
-            const response = await fetch(`http://localhost:5000/bookings/${selectedRoom._id}`, {
+            const response = await fetch(`https://hotel-booking-platform-server-side.vercel.app/bookings/${selectedRoom._id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -158,7 +145,7 @@ const Booked = ({ data, setRooms }) => {
                 text: 'Your booking has been updated successfully!',
             }).then(() => {
                 // Reload the page
-                window.location.reload();
+                navigate(0);
             });
 
             // Optionally, you can update the UI or reload the bookings here
@@ -178,102 +165,100 @@ const Booked = ({ data, setRooms }) => {
         }
     };
 
-    const handleSubmitReview = async () => {
-        // Open the review modal
-        setShowReviewModal(true);
-    };
 
-    const handleReviewSubmit = async () => {
+    const handleSubmitReview = async () => {
         try {
-            setShowReviewModal(false);
-            setLoading(true);
-    
-            // Check if the current user is authorized to submit a review
-            if (user.email !== data.userEmail) {
-                throw new Error('You are not authorized to submit a review for this room.');
-            }
-    
-            // Check if review text is empty
-            if (!reviewText.trim()) {
-                throw new Error('Please write a review before submitting.');
-            }
-    
-            // Prepare the review object
-            const reviewData = {
+            const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
                 roomId: data.roomId,
-                userEmail: data.userEmail,
                 reviewText: reviewText
-            };
-    
-            // Send the review data to the server
-            const response = await fetch('http://localhost:5000/reviews', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(reviewData)
             });
-    
-            if (!response.ok) {
-                throw new Error('Failed to submit review.');
+
+            if (response.data.success) {
+                // Clear review text
+                setReviewText('');
+
+                // Show success notification
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Review Submitted',
+                    text: 'Your review has been submitted successfully!',
+                });
+            } else {
+
+                throw new Error(response.data.message || 'Failed to submit review.');
             }
-    
-            // Clear review text
-            setReviewText('');
-    
-            // Show success message to the user
-            Swal.fire({
-                icon: 'success',
-                title: 'Review Submitted',
-                text: 'Your review has been submitted successfully!'
-            });
         } catch (error) {
             console.error('Error submitting review:', error);
-            // Show error message to the user
+            // Show error notification
             Swal.fire({
-                icon: 'error',
-                title: 'Review Submission Failed',
-                text: error.message
+                icon: 'info',
+                title: 'Thanks for try again',
+                text: 'You have already reviewd this room',
             });
         } finally {
             setLoading(false);
-            // Close the review modal
             setShowReviewModal(false);
         }
     };
-    
+
+
+    const handleReviewButtonClick = () => {
+        if (user) {
+            // If user is authenticated, show the review modal
+            setShowReviewModal(true);
+        } else {
+            // If user is not authenticated, redirect to login page
+            navigate('/login');
+        }
+    };
 
     return (
         <div>
-            {/* Add a modal for writing reviews */}
             {showReviewModal && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
-                <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
-                    <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
-                    <textarea
-                        value={reviewText}
-                        onChange={(e) => setReviewText(e.target.value)}
-                        placeholder="Write your review here..."
-                        className="border border-gray-300 rounded p-2 mb-4 w-full h-40"
-                    ></textarea>
-                    <div className="flex justify-center gap-5 items-center">
+                    <div className="bg-white p-8 rounded-lg text-black shadow-lg max-w-md">
+                        <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
+                        <textarea
+
+                            value={reviewText}
+                            onChange={(e) => setReviewText(e.target.value)}
+                            placeholder="Write your review here..."
+                            className="border bg-white border-gray-300 rounded p-2 mb-4 w-full h-40"
+                        ></textarea>
+                        <div className="flex justify-center gap-5 items-center">
+                            <button
+                                onClick={handleSubmitReview}
+                                disabled={loading || !reviewText.trim()}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+                            >
+                                {loading ? 'Submitting...' : 'Submit Review'}
+                            </button>
+                            <button
+                                onClick={() => setShowReviewModal(false)}
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {deletedSuccess && (
+                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                    <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+                        <h2 className="text-2xl font-bold mb-4">Deleted Successfully</h2>
+                        <p className="mb-4">Your booking for {selectedRoom.name} has been confirmed.</p>
                         <button
-                            onClick={handleReviewSubmit}
-                            disabled={loading || !reviewText.trim()}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+                            className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
+                            onClick={() => {
+                                setDeletedSuccess(false); // Set deletedSuccess to false
+                                navigate(-1); // Navigate back to the previous page
+                            }}
                         >
-                            {loading ? 'Submitting...' : 'Submit Review'}
-                        </button>
-                        <button
-                            onClick={() => setShowReviewModal(false)}
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                        >
-                            Cancel
+                            Close
                         </button>
                     </div>
                 </div>
-            </div>
-            
             )}
 
             {loading && <span className="loading loading-bars loading-lg mx-auto justify-center items-center flex flex-col"></span>
@@ -315,35 +300,37 @@ const Booked = ({ data, setRooms }) => {
                     </div>
                 </div>
             )}
-            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-4 h-40 w-4/5 mx-auto justify-center rounded-lg" key={data._id}>
+            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-2 h-40 w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1 hover:bg-green-100 cursor-pointer" key={data._id}>
                 <div>
-                    <Link to={`/roomDetails/${data.roomId}`}>
-                        <div className="relative overflow-hidden h-44 mx-auto justify-center rounded-lg">
+                    <Link className='tooltip tooltip-accent' to={`/roomDetails/${data.roomId}`} data-tip={"View Details"}>
+                        <div className="relative overflow-hidden h-36 mx-auto justify-center rounded-lg">
                             <img
-                                className="object-cover h-40 w-full mx-auto justify-center rounded-lg"
+                                className="object-cover h-36 w-full mx-auto justify-center rounded-lg"
                                 src={data.images[currentImageIndex]}
                                 alt={data.name}
                             />
                         </div>
                     </Link>
                 </div>
-                <div>
-                    <div className="px-6 py-4 mx-auto justify-center w-2/3">
-                        <div className="font-bold text-lg mb-1">{data.name}</div>
-                        <p className="text-orange-400 font-bold">
-                            Price : ${data.price_per_night}
-                        </p>
-                        <p className="text-orange-600 text-xs">
-                            Book Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
-                        </p>
-                        <p className="text-green-600 text-xs">
-                            Special Offer: <span className='font-bold'>{data.special_offers}</span>
-                        </p>
-                        <p className="text-orange-600 text-xs">
-                            Total Reviews: <span className='font-bold'>{data.totalReviews}</span>
-                        </p>
-                    </div>
-                </div>
+                <Link to={`/roomDetails/${data.roomId}`}>
+                    <div>
+                        <div className="px-6 py-2 mx-auto justify-center w-2/3">
+                            <div className="font-bold text-sm mb-1">{data.name}</div>
+                            <p className="text-orange-400 font-bold">
+                                Price : ${data.price_per_night}
+                            </p>
+                            <p className="text-gray-600 text-xs">
+                                Room size: <span className='font-bold'>{data.room_size}</span>
+                            </p>
+                            <p className="text-gray-600 text-xs">
+                                Book Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
+                            </p>
+                            <p className="text-green-600 text-xs">
+                                Special Offer: <span className='font-bold'>{data.special_offers || "No offer available"}</span>
+                            </p>
+
+                        </div>
+                    </div></Link>
                 <div>
                     <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
                         <div
@@ -354,7 +341,7 @@ const Booked = ({ data, setRooms }) => {
                         </div>
                         <div
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full flex justify-center items-center gap-1 cursor-pointer "
-                            onClick={() => handleSubmitReview(data.roomId, data.userEmail)}
+                            onClick={handleReviewButtonClick}
                         >
                             <MdOutlineReviews /><p>Review </p>
                         </div>

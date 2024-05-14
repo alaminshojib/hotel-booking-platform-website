@@ -54,7 +54,7 @@ const useBook = () => {
         const userName = user.displayName;
     
         try {
-          const response = await fetch(`http://localhost:5000/bookings?userEmail=${userEmail}&roomId=${id}`);
+          const response = await fetch(`https://hotel-booking-platform-server-side.vercel.app/bookings?userEmail=${userEmail}&roomId=${id}`);
           if (!response.ok) {
             throw new Error('Failed to fetch existing bookings');
           }
@@ -79,7 +79,7 @@ const useBook = () => {
               userName: userName,
               bookingDate: bookingDate,
             };
-            const bookingResponse = await fetch('http://localhost:5000/bookings', {
+            const bookingResponse = await fetch('https://hotel-booking-platform-server-side.vercel.app/bookings', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'

@@ -1,109 +1,121 @@
-// MyBookings.js
-import React, { useState, useEffect } from 'react';
-import { Typewriter } from 'react-simple-typewriter';
-import { GrLinkNext } from "react-icons/gr";
-import { GrLinkPrevious } from "react-icons/gr";
-import axios from 'axios';
-import Booked from './Booked';
+import React, { useContext, useEffect, useState } from "react";
 import EmptyState from '../../components/EmptyState';
+import { Typewriter } from "react-simple-typewriter";
+import { AuthContext } from "../../providers/AuthProvider";
+import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import Booked from './Booked';
+import axios from 'axios';
 
 const MyBookings = () => {
-    const [bookings, setBookings] = useState([]);
-    const [totalBookings, setTotalBookings] = useState(0);
+    const { user } = useContext(AuthContext);
+    const [filteredRooms, setFilteredRooms] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const bookingsPerPage = 5; // Number of bookings per page
+    const [bookingsPerPage] = useState(10);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchBookings();
-    }, [currentPage]); // Fetch bookings when currentPage changes
+        if (!user) return;
 
-    const fetchBookings = async () => {
-        try {
-            const response = await axios.get(`http://localhost:5000/bookings?page=${currentPage}&limit=${bookingsPerPage}`);
-            setBookings(response.data.bookings);
-            setTotalBookings(response.data.totalBookings);
-        } catch (error) {
-            console.error('Error fetching bookings:', error);
-        }
-    };
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const response = await axios.get('https://hotel-booking-platform-server-side.vercel.app/bookings', {
+                    params: {
+                        email: user.email
+                    }
+                });
+                setFilteredRooms(response.data.bookings);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                setError("Error fetching data");
+            }
+        };
 
-    const changePage = pageNumber => {
-        setCurrentPage(pageNumber);
-    };
+        fetchData();
+    }, [user]);
 
-    const totalPages = Math.ceil(totalBookings / bookingsPerPage);
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-    }
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    const indexOfLastBooking = currentPage * bookingsPerPage;
+    const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+    const currentBookings = filteredRooms.slice(indexOfFirstBooking, indexOfLastBooking);
 
     return (
         <div>
-            <h1 className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '>
-                <Typewriter
-                    words={['My Booking List']}
-                    loop={0}
-                    typeSpeed={250}
-                    deleteSpeed={0}
-                    delaySpeed={0}
-                    cursor={null}
-                    typeWriterSpan={props => <span {...props} className="inline-block" />}
-                />
-            </h1>
+            {loading ? (
+                <div className="text-center text-gray-500 m-10"><span className="loading loading-dots loading-lg"></span>
+                </div>
+            ) : error ? (
+                <div className="text-center text-red-500 mt-4">Error: {error}</div>
+            ) : (
+                <React.Fragment>
+                    <div className="flex flex-col justify-center items-center pt-5 ">
+                        <h1 className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '>
+                            <Typewriter
+                                words={['My Booking List']}
+                                loop={0}
+                                typeSpeed={250}
+                                deleteSpeed={0}
+                                delaySpeed={0}
+                                cursor={null}
+                                typeWriterSpan={props => <span {...props} className="inline-block" />}
+                            />
+                        </h1>
+                    </div>
 
-            <p className='text-gray-500 pb-5 mx-auto justify-center text-center w-3/5'>Enjoy luxurious accommodations in our Executive Suite, featuring spacious living areas, stunning city views, and top-notch amenities for a truly indulgent stay..</p>
 
+                    <p className='text-gray-500 pb-5 mx-auto justify-center text-center w-3/5'>Enjoy your cozy rooms, stylish apartments, and serene cottages.</p>
 
-
-            {bookings.length < 1 ? (
-                    <EmptyState
-                        message="No booked room was found !"
-                        address="/rooms"
-                        label="Book Now"
-                    />
-                ) : (
-                  <div className='grid grid-cols-1 mx-auto justify-center'>
-                  {bookings.map(booking => (
-                      <Booked key={booking._id} data={booking} />
-                  ))}
-              </div>
-                
+                    {currentBookings.length < 1 ? (
+                        <EmptyState
+                            message="No booked room was found !"
+                            address="/rooms"
+                            label="Book Now"
+                        />
+                    ) : (
+                        <div className='grid grid-cols-1 mx-auto justify-center'>
+                            {currentBookings.map(booking => (
+                                <Booked key={booking._id} data={booking} />
+                            ))}
+                        </div>
+                    )}
+                    <div className="flex justify-center m-4">
+                        <button
+                            onClick={() => paginate(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`mr-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
+                        >
+                            <GrLinkPrevious />
+                        </button>
+                        {filteredRooms.length > 0 &&
+                            Array.from({ length: Math.ceil(filteredRooms.length / bookingsPerPage) }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    onClick={() => paginate(i + 1)}
+                                    className={`mx-1 py-2 px-4 rounded-lg focus:outline-none ${
+                                        currentPage === i + 1 ? 'font-bold text-blue-500' : ''
+                                    }`}
+                                >
+                                    {i + 1}
+                                </button>
+                            ))}
+                        <button
+                            onClick={() => paginate(currentPage + 1)}
+                            disabled={currentPage === Math.ceil(filteredRooms.length / bookingsPerPage)}
+                            className={`ml-2 border-2 hover:border-cyan-700 py-2 px-4 rounded-lg focus:outline-none ${
+                                currentPage === Math.ceil(filteredRooms.length / bookingsPerPage) ? 'cursor-not-allowed' : ''
+                            }`}
+                        >
+                            <GrLinkNext />
+                        </button>
+                    </div>
+                </React.Fragment>
             )}
-
-
-
-
-
-           
-            <div className="flex justify-center m-4">
-                <button
-                    onClick={() => changePage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className={`mr-2 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
-                >
-                    <GrLinkPrevious />
-                </button>
-                {pageNumbers.map(number => (
-                    <button
-                        key={number}
-                        onClick={() => changePage(number)}
-                        className={`mx-1 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none ${
-                            currentPage === number ? 'font-bold text-blue-500' : ''
-                        }`}
-                    >
-                        {number}
-                    </button>
-                ))}
-                <button
-                    onClick={() => changePage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className={`ml-2 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded-lg focus:outline-none ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
-                >
-                    <GrLinkNext />
-                </button>
-            </div>
         </div>
     );
-}
+};
 
 export default MyBookings;

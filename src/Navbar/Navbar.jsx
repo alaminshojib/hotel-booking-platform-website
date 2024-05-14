@@ -2,7 +2,6 @@ import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import './NavStyle.css'
 import { AuthContext } from "../providers/AuthProvider";
-import { FiSun, FiMoon } from 'react-icons/fi';
 import Swal from "sweetalert2";
 
 const Navbar = ({ isDarkMode, toggleTheme }) => {
@@ -100,8 +99,8 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
 
                         </div>
                     </div>
-                    <Link to={"/"}><div className="flex gap-3 lg:text-2xl text-md rounded-xl md:p-2 items-center font-bold "><img className="w-5 h-5 lg:w-10 lg:h-10  shadow-lg rounded-md" src="/assets/arts.jpg" alt="" />
-                        PlaceName</div></Link>
+                    <Link to={"/"}><div className="flex gap-3 lg:text-2xl text-md rounded-xl md:p-2 items-center font-bold text-bungee text-blue-500"><img className="w-5 h-5 lg:w-10 lg:h-10  shadow-lg rounded-md" src="https://i.ibb.co/ZmYMmKJ/logo.webp" alt="" />
+                        <span>Roomies</span></div></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <div className=" menu menu-horizontal px-1 gap-2 text-md font-medium  bg-transparent">
