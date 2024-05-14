@@ -85,7 +85,6 @@ const Booked = ({ data, setRooms }) => {
             }
 
         } catch (error) {
-            console.error('Error deleting room item:', error);
             // Show error message to the user
             Swal.fire(
                 'Sorry to Say!',
@@ -106,7 +105,6 @@ const Booked = ({ data, setRooms }) => {
     const handleConfirmUpdate = async () => {
         try {
             if (!selectedRoom || !bookingDate) {
-                console.error("Selected room or date is missing.");
                 return;
             }
 
@@ -116,7 +114,6 @@ const Booked = ({ data, setRooms }) => {
             const originalBookingDate = new Date(selectedRoom.bookingDate); // Assuming selectedRoom has a property bookingDate
             if (originalBookingDate.getTime() === bookingDate.getTime()) {
                 // Dates are the same, show an alert and return
-                console.log("Booking date remains the same.");
                 Swal.fire({
                     icon: 'info',
                     title: 'No Changes Detected',
@@ -154,10 +151,8 @@ const Booked = ({ data, setRooms }) => {
             });
 
             // Optionally, you can update the UI or reload the bookings here
-            console.log("Booking date updated successfully");
 
         } catch (error) {
-            console.error("Error confirming update:", error);
 
             // Show error notification
             Swal.fire({
@@ -206,7 +201,6 @@ const Booked = ({ data, setRooms }) => {
                 throw new Error(response.data.message || 'Failed to submit review.');
             }
         } catch (error) {
-            console.error('Error submitting review:', error);
             setReviewError('You have already reviewed this room'); // Set review error message
         } finally {
             setLoading(false);

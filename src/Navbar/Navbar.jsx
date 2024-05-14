@@ -41,7 +41,6 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
                 }
             }
         } catch (error) {
-            console.error('Error deleting craft item:', error);
 
         } finally {
             window.location.reload()

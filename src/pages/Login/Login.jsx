@@ -26,7 +26,6 @@ const Login = () => {
     };
 
     const handleLoginFailure = (error) => {
-        console.error(error);
         setShowError(true);
     };
 

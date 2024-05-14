@@ -20,19 +20,18 @@ const FeaturedRooms = () => {
       const jsonData = await response.json();
       setroomData(jsonData);
     } catch (error) {
-      console.error('Error fetching data:', error);
     }
   };
 
   const limitedroomData = roomData.slice(0, 5);
 
   return (
-    <div className='mt-20 px-5'>
+    <div className='md:mt-20 px-5'>
 
        
        
       <h1
-        className='mx-auto text-center  md:m-5 m-2 md:text-3xl text-xl font-bold '
+        className='mx-auto text-center  md:m-5 m-2 md:text-3xl text-lg font-bold '
         data-aos="fade-up" // Apply fade-up animation to this element
       >
         <Typewriter
@@ -45,9 +44,9 @@ const FeaturedRooms = () => {
           typeWriterSpan={props => <span {...props} className="inline-block"/>}
         />
       </h1>
-      <p className='text-gray-500 py-4 mx-auto justify-center text-center w-3/5'>Experience luxury redefined with unparalleled amenities, personalized service, and an ambiance that exceeds expectations. Explore our featured rooms and elevate your stay to unforgettable heights.
+      <p className='text-gray-500 py-4 mx-auto justify-center text-center md:w-3/5'>Experience luxury redefined with unparalleled amenities, personalized service, and an ambiance that exceeds expectations. Explore our featured rooms and elevate your stay to unforgettable heights.
         </p>
-      <div className=" grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-2 justify-center items-center gap-2 mt-8 ">
+      <div className=" grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center items-center gap-2 mt-4 md:mt-8 ">
         {limitedroomData.map((room, index) => (
           <div
             key={index}
@@ -61,14 +60,11 @@ const FeaturedRooms = () => {
      
             </div>
             <div className='p-2'>
-              <Link to={`/roomDetails/${room._id}`}>
-                <button
-                  type="button"
-                  className="btn-sm w-full bg-blue-500 text-gray-900 dark:text-gray-50 font-semibold px-4 rounded-md shadow-md hover:bg-violet-500"
+              <Link to={`/roomDetails/${room._id}`}
+                  className="btn-sm mx-auto flex justify-center items-center cursor-pointer bg-blue-500 text-gray-900 dark:text-gray-50 font-semibold px-4 rounded-md w-fit shadow-md hover:bg-violet-500"
                    
                 >
                   Book Now
-                </button>
               </Link>
             </div>
           </div>

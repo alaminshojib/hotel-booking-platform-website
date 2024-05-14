@@ -33,7 +33,6 @@ const Rooms = () => {
   };
 
   const handleClickRoom = roomId => {
-    console.log("Room clicked: ", roomId);
     // Implement your routing logic here
   };
 

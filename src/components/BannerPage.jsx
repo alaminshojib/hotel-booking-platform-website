@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Banner() {
   const [services, setServices] = useState([]);
@@ -26,12 +27,11 @@ export default function Banner() {
       const data = await response.json();
       setServices(data);
     } catch (error) {
-      console.error('Error fetching services:', error);
     }
   };
 
-  
- 
+
+
 
   return (
     <div className='w-full rounded-md relative'>
@@ -41,25 +41,24 @@ export default function Banner() {
           className="slide-content bg-no-repeat bg-cover max-h-svh object-center bg-center"
           style={{ backgroundImage: `url(${service.images[0]})`, minHeight: "400px" }}
         >
-          <div className='absolute bottom-16 left-0 right-0 text-center bg-gray-200 rounded-xl p-2 text-black drop-shadow-md font-bold w-fit mx-auto'>
-            <h3 className="text-lg md:text-2xl lg:text-3xl">{service.name}</h3>
-            <p className="text-sm md:text-base lg:text-lg">{service.description}</p>
+          <div className='absolute bottom-36 md:bottom-16 left-0 right-0 text-center bg-gray-200 md:rounded-xl p-2 text-black drop-shadow-md font-bold w-fit mx-auto'>
+            <h3 className="text-md md:text-lg lg:text-3xl">{service.name}</h3>
+            <p className="text-xs text-gray-500 md:text-base lg:text-md">{service.description}</p>
           </div>
         </div>
       ))}
       <div className="pagination">
       </div>
-      <div className="p-6  bg-violet-400 dark:bg-violet-600 text-gray-900 dark:text-gray-50 md:absolute -bottom-12 right-0 left-0 z-[3] justify-center items-center mx-auto md:w-2/3 md:rounded-2xl ">
+      <div style={{ backgroundImage: "url('https://i.ibb.co/dKP88vm/backgroundjpg.jpg')" }} className="p-6 bg-cover bg-center bg-no-repeat  md:absolute -bottom-12 right-0 left-0 z-[3] justify-center items-center mx-auto md:w-2/3 md:rounded-2xl ">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center justify-between">
-            <h2 className="text-center text-2xl tracking-tighter font-bold">Up to
-              <br className="sm:hidden" /> 35% Off
+            <h2 className="text-center text-md md:text-2xl tracking-tighter text-white font-bold">Up to 35% Off
             </h2>
-            <div className="space-x-2 text-center py-2 lg:py-0">
-              <span>Plus free shipping! Use code:</span>
+            <div className="space-x-2 text-center text-white  lg:py-0">
+              <span>For getting offer! Use code:</span>
               <span className="font-bold text-md">P-HERO</span>
             </div>
-            <a href="#" rel="noreferrer noopener" className="px-5 mt-4 lg:mt-0 py-3 rounded-md border block bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 border-gray-400 dark:border-gray-600">Show Rooms</a>
+            <Link className="text mt-2 rounded-md border px-2 py-1 hover:bg-blue-600 bg-green-600 dark:text-gray-50 border-gray-400 dark:border-gray-600" >Show Rooms</Link>
           </div>
         </div>
       </div>

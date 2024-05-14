@@ -82,7 +82,6 @@ const RoomDetails = () => {
           setShowBookingSummary(false); // Hide booking summary after successful booking
         }
       } catch (error) {
-        console.error("Error handling booking:", error);
         setBookingError("This room is already booked.Try to book others room.");
       } finally {
         setBookingLoading(false);

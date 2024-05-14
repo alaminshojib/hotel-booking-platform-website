@@ -93,7 +93,6 @@ const useBook = () => {
             Swal.fire('The booking was successful!', '', 'success');
           }
         } catch (error) {
-          console.error('Error handling booking:', error);
           Swal.fire('You have already booked this room!', '', 'error');
         } finally {
           setBookingLoading(false);
