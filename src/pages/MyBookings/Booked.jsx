@@ -170,17 +170,19 @@ const Booked = ({ data, setRooms }) => {
         }
     };
 
-    
+
 
     const handleSubmitReview = async (e) => {
         e.preventDefault(); // Prevent default form submission behavior
         try {
             setShowReviewModal(true);
 
+
             // Validate rating range
-            if (parseFloat(rating) < 1 || parseFloat(rating) > 5) {
-                throw new Error('Rating must be a number between 1 and 5');
+            if (parseFloat(rating) < 0.1 || parseFloat(rating) > 5) {
+                throw new Error('Rating must be a number between 0.1 and 5.1');
             }
+
 
             const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
                 displayName: displayName || user.displayName, // Use user.displayName if displayName is empty
@@ -221,7 +223,7 @@ const Booked = ({ data, setRooms }) => {
 
     return (
         <div>
-             {reviewError && (
+            {reviewError && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Thanks for the interest</h2>
@@ -253,15 +255,16 @@ const Booked = ({ data, setRooms }) => {
                             <div className="mb-4">
                                 <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating:</label>
                                 <input
+                                    placeholder='Give Rating'
                                     id="rating"
                                     type="number"
-                                    min="1"
-                                    max="5"
+                                    step="0.1" // Increment or decrement by 0.1
                                     value={rating || ''} // Ensure null is handled
                                     onChange={(e) => setRating(e.target.value)} // Ensure rating is parsed as integer
                                     className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
                                 />
                             </div>
+
                             <div className="mb-4">
                                 <label htmlFor="reviewText" className="block text-sm font-medium text-gray-700">Review:</label>
                                 <textarea
