@@ -20,6 +20,7 @@ const Booked = ({ data, setRooms }) => {
     const [reviewText, setReviewText] = useState('');
     const [showReviewModal, setShowReviewModal] = useState(false); // State to control review modal visibility
 
+    const [rating, setRating] = useState(0); // State to store the rating
 
 
     const handleDelete = async (roomId) => {
@@ -168,14 +169,25 @@ const Booked = ({ data, setRooms }) => {
 
     const handleSubmitReview = async () => {
         try {
+            // Validate if rating is between 1 and 5
+            if (rating < 1 || rating > 5 || !Number.isInteger(rating)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Rating',
+                    text: 'Rating must be an integer between 1 and 5',
+                });
+                return;
+            }
+
             const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
-                roomId: data.roomId,
-                reviewText: reviewText
+                reviewText: reviewText,
+                rating: rating,
             });
 
             if (response.data.success) {
-                // Clear review text
+                // Clear review text and rating
                 setReviewText('');
+                setRating(0);
 
                 // Show success notification
                 Swal.fire({
@@ -184,7 +196,6 @@ const Booked = ({ data, setRooms }) => {
                     text: 'Your review has been submitted successfully!',
                 });
             } else {
-
                 throw new Error(response.data.message || 'Failed to submit review.');
             }
         } catch (error) {
@@ -192,16 +203,16 @@ const Booked = ({ data, setRooms }) => {
             // Show error notification
             Swal.fire({
                 icon: 'info',
-                title: 'Thanks for try again',
-                text: 'You have already reviewd this room',
+                title: 'Review Submission Failed',
+                text: error.message || 'Failed to submit review. Please try again later.',
             });
-        } finally {
-            setLoading(false);
-            setShowReviewModal(false);
         }
     };
 
 
+
+
+    
     const handleReviewButtonClick = () => {
         if (user) {
             // If user is authenticated, show the review modal
@@ -218,31 +229,80 @@ const Booked = ({ data, setRooms }) => {
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg text-black shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
-                        <textarea
-
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            placeholder="Write your review here..."
-                            className="border bg-white border-gray-300 rounded p-2 mb-4 w-full h-40"
-                        ></textarea>
-                        <div className="flex justify-center gap-5 items-center">
-                            <button
-                                onClick={handleSubmitReview}
-                                disabled={loading || !reviewText.trim()}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-                            >
-                                {loading ? 'Submitting...' : 'Submit Review'}
-                            </button>
-                            <button
-                                onClick={() => setShowReviewModal(false)}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
-                            >
-                                Cancel
-                            </button>
-                        </div>
+                        <form onSubmit={handleSubmitReview}>
+                            <div className="mb-4">
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    value={data.name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    value={user.displayName}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price:</label>
+                                <input
+                                    id="price"
+                                    type="number"
+                                    value={data.price_per_night}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating:</label>
+                                <input
+                                    id="rating"
+                                    type="number"
+                                    min="1"
+                                    max="5"
+                                    value={rating}
+                                    onChange={(e) => setRating(e.target.value)}
+                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="review" className="block text-sm font-medium text-gray-700">Review:</label>
+                                <textarea
+                                    id="review"
+                                    value={reviewText}
+                                    onChange={(e) => setReviewText(e.target.value)}
+                                    placeholder="Write your review here..."
+                                    className="border bg-white border-gray-300 rounded p-2 mb-4 w-full h-40"
+                                ></textarea>
+                            </div>
+                            <div className="flex justify-center gap-5 items-center">
+                                <button
+                                    type="submit"
+                                    disabled={loading || !reviewText.trim()}
+                                    className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+                                >
+                                    {loading ? 'Submitting...' : 'Leave a Review'}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowReviewModal(false)}
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
+
             {deletedSuccess && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
@@ -334,19 +394,19 @@ const Booked = ({ data, setRooms }) => {
                 <div>
                     <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
                         <div
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-4 rounded-full flex justify-center items-center gap-1 cursor-pointer "
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
                             onClick={() => handleUpdateDate(data._id, data)}
                         >
-                            <MdUpdate /><p>Update </p>
+                            <MdUpdate /><p>Update</p>
                         </div>
                         <div
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full flex justify-center items-center gap-1 cursor-pointer "
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={handleReviewButtonClick}
                         >
                             <MdOutlineReviews /><p>Review </p>
                         </div>
                         <div
-                            className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-4 rounded-full flex justify-center items-center gap-1 cursor-pointer "
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={() => handleDelete(data.roomId)}
                             disabled={isDeleting}
                         >
@@ -360,3 +420,5 @@ const Booked = ({ data, setRooms }) => {
 };
 
 export default Booked;
+
+
