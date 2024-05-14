@@ -20,7 +20,10 @@ const Booked = ({ data, setRooms }) => {
     const [reviewText, setReviewText] = useState('');
     const [showReviewModal, setShowReviewModal] = useState(false); // State to control review modal visibility
 
-    const [rating, setRating] = useState(0); // State to store the rating
+    const [rating, setRating] = useState(null); // State to store the rating
+
+    const [displayName, setDisplayName] = useState('');
+
 
 
     const handleDelete = async (roomId) => {
@@ -166,28 +169,27 @@ const Booked = ({ data, setRooms }) => {
         }
     };
 
-
-    const handleSubmitReview = async () => {
+    const handleSubmitReview = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
         try {
-            // Validate if rating is between 1 and 5
-            if (rating < 1 || rating > 5 || !Number.isInteger(rating)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Rating',
-                    text: 'Rating must be an integer between 1 and 5',
-                });
-                return;
+            setShowReviewModal(true);
+
+            // Validate rating range
+            if (parseFloat(rating) < 1 || parseFloat(rating) > 5) {
+                throw new Error('Rating must be a number between 1 and 5');
             }
 
             const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
+                displayName: displayName || user.displayName, // Use user.displayName if displayName is empty
+                rating: parseFloat(rating), // Parse rating as float
                 reviewText: reviewText,
-                rating: rating,
+                roomId: data.roomId // Assuming roomId is available in the data object
             });
 
             if (response.data.success) {
                 // Clear review text and rating
                 setReviewText('');
-                setRating(0);
+                setRating(null); // Reset rating to null or ''
 
                 // Show success notification
                 Swal.fire({
@@ -200,26 +202,17 @@ const Booked = ({ data, setRooms }) => {
             }
         } catch (error) {
             console.error('Error submitting review:', error);
-            // Show error notification
-            Swal.fire({
-                icon: 'info',
-                title: 'Review Submission Failed',
-                text: error.message || 'Failed to submit review. Please try again later.',
-            });
+            setReviewError(error.message); // Set review error message
+        } finally {
+            setLoading(false);
+            setShowReviewModal(false); // Set loading to false after data fetching completes
         }
     };
 
-
-
-
-    
     const handleReviewButtonClick = () => {
         if (user) {
             // If user is authenticated, show the review modal
             setShowReviewModal(true);
-        } else {
-            // If user is not authenticated, redirect to login page
-            navigate('/login');
         }
     };
 
@@ -231,32 +224,12 @@ const Booked = ({ data, setRooms }) => {
                         <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
                         <form onSubmit={handleSubmitReview}>
                             <div className="mb-4">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
+                                <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">Display Name:</label>
                                 <input
-                                    id="name"
+                                    id="displayName"
                                     type="text"
-                                    value={data.name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
-                                <input
-                                    id="username"
-                                    type="text"
-                                    value={user.displayName}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price:</label>
-                                <input
-                                    id="price"
-                                    type="number"
-                                    value={data.price_per_night}
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    value={user.displayName} // Assuming user object includes displayName
+                                    onChange={(e) => setDisplayName(e.target.value)}
                                     className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
                                 />
                             </div>
@@ -267,15 +240,15 @@ const Booked = ({ data, setRooms }) => {
                                     type="number"
                                     min="1"
                                     max="5"
-                                    value={rating}
-                                    onChange={(e) => setRating(e.target.value)}
+                                    value={rating || ''} // Ensure null is handled
+                                    onChange={(e) => setRating(e.target.value)} // Ensure rating is parsed as integer
                                     className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="review" className="block text-sm font-medium text-gray-700">Review:</label>
+                                <label htmlFor="reviewText" className="block text-sm font-medium text-gray-700">Review:</label>
                                 <textarea
-                                    id="review"
+                                    id="reviewText"
                                     value={reviewText}
                                     onChange={(e) => setReviewText(e.target.value)}
                                     placeholder="Write your review here..."
@@ -302,6 +275,7 @@ const Booked = ({ data, setRooms }) => {
                     </div>
                 </div>
             )}
+
 
             {deletedSuccess && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
