@@ -35,7 +35,7 @@ const FeaturedRooms = () => {
         data-aos="fade-up" // Apply fade-up animation to this element
       >
         <Typewriter
-          words={['Explore Our Luxurious Accommodations']}
+          words={['Luxurious Featured Accommodations ']}
           loop={0}
           typeSpeed={250}
           deleteSpeed={0}
@@ -44,7 +44,7 @@ const FeaturedRooms = () => {
           typeWriterSpan={props => <span {...props} className="inline-block"/>}
         />
       </h1>
-      <p className='text-gray-500 py-4 mx-auto justify-center text-center md:w-3/5'>Experience luxury redefined with unparalleled amenities, personalized service, and an ambiance that exceeds expectations. Explore our featured rooms and elevate your stay to unforgettable heights.
+      <p className='text-gray-500 py-4 mx-auto justify-center text-center md:w-3/5'>Luxurious accommodations await—discover unparalleled comfort and style.
         </p>
       <div className=" grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center items-center gap-2 mt-4 md:mt-8 ">
         {limitedroomData.map((room, index) => (

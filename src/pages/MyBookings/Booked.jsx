@@ -24,6 +24,7 @@ const Booked = ({ data, setRooms }) => {
     const [reviewError, setReviewError] = useState(null); // State to store review error message
 
     const [displayName, setDisplayName] = useState('');
+    const [photoURL, setPhotoURL] = useState('');
 
 
 
@@ -166,31 +167,29 @@ const Booked = ({ data, setRooms }) => {
     };
 
 
-
     const handleSubmitReview = async (e) => {
         e.preventDefault(); // Prevent default form submission behavior
         try {
             setShowReviewModal(true);
-
-
+    
             // Validate rating range
             if (parseFloat(rating) < 0.1 || parseFloat(rating) > 5) {
                 throw new Error('Rating must be a number between 0.1 and 5.1');
             }
-
-
+    
             const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
                 displayName: displayName || user.displayName, // Use user.displayName if displayName is empty
                 rating: parseFloat(rating), // Parse rating as float
                 reviewText: reviewText,
-                roomId: data.roomId // Assuming roomId is available in the data object
+                roomId: data.roomId, // Assuming roomId is available in the data object
+                photoURL: photoURL || user.photoURL // Assuming user.photoURL contains the URL of the user's photo
             });
-
+    
             if (response.data.success) {
                 // Clear review text and rating
                 setReviewText('');
                 setRating(null); // Reset rating to null or ''
-
+    
                 // Show success notification
                 Swal.fire({
                     icon: 'success',
@@ -201,12 +200,19 @@ const Booked = ({ data, setRooms }) => {
                 throw new Error(response.data.message || 'Failed to submit review.');
             }
         } catch (error) {
-            setReviewError('You have already reviewed this room'); // Set review error message
+            if (error.response && error.response.status === 400 && error.response.data && error.response.data.message === "You have already reviewed this item.") {
+                // If the user has already reviewed this room, show a specific error message
+                setReviewError('You have already reviewed this room');
+            } else {
+                // For other errors, show a generic error message
+                setReviewError('Failed to submit review. Please try again later.');
+            }
         } finally {
             setLoading(false);
             setShowReviewModal(false); // Set loading to false after data fetching completes
         }
     };
+    
 
     const handleReviewButtonClick = () => {
         if (user) {
@@ -218,7 +224,7 @@ const Booked = ({ data, setRooms }) => {
     return (
         <div>
             {reviewError && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Thanks for the interest</h2>
                         <p className="mb-4">{reviewError}</p>
@@ -234,19 +240,29 @@ const Booked = ({ data, setRooms }) => {
             {showReviewModal && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg text-black shadow-lg max-w-md">
-                        <h2 className="text-2xl font-bold mb-4">Write a Review</h2>
+                        <h2 className="text-md font-bold mb-4">Write a Review</h2>
                         <form onSubmit={handleSubmitReview}>
-                            <div className="mb-4">
-                                <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">Display Name:</label>
+                            <div className="mb-2">
+                                <label htmlFor="displayName" className="block text-xs font-medium text-gray-700">Display Name:</label>
                                 <input
                                     id="displayName"
                                     type="text"
                                     value={user.displayName} // Assuming user object includes displayName
                                     onChange={(e) => setDisplayName(e.target.value)}
-                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                    className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className="mb-2">
+                                <label htmlFor="displayName" className="block text-xs font-medium text-gray-700">User Photo:</label>
+                                <input
+                                    id="photoURL"
+                                    type="text"
+                                    value={user.photoURL} // Assuming user object includes displayName
+                                    onChange={(e) => setPhotoURL(e.target.value)}
+                                    className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
+                                />
+                            </div>
+                            <div className="mb-2">
                                 <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating:</label>
                                 <input
                                     placeholder='Give Rating'
@@ -255,11 +271,11 @@ const Booked = ({ data, setRooms }) => {
                                     step="0.1" // Increment or decrement by 0.1
                                     value={rating || ''} // Ensure null is handled
                                     onChange={(e) => setRating(e.target.value)} // Ensure rating is parsed as integer
-                                    className="border bg-white border-gray-300 rounded p-2 mb-2 w-full"
+                                    className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
                                 />
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-2">
                                 <label htmlFor="reviewText" className="block text-sm font-medium text-gray-700">Review:</label>
                                 <textarea
                                     id="reviewText"
@@ -292,7 +308,7 @@ const Booked = ({ data, setRooms }) => {
 
 
             {deletedSuccess && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Deleted Successfully</h2>
                         <p className="mb-4">Your booking for {selectedRoom.name} has been confirmed.</p>
@@ -347,7 +363,7 @@ const Booked = ({ data, setRooms }) => {
                     </div>
                 </div>
             )}
-            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-2 h-40 lg:w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1 hover:bg-green-100 cursor-pointer" key={data._id}>
+            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border-2 mb-2 h-40 lg:w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1  cursor-pointer" key={data._id}>
                 <div>
                     <Link className='tooltip tooltip-accent' to={`/roomDetails/${data.roomId}`} data-tip={"View Details"}>
                     <div className="flex  h-16 md:h-20 lg:h-full  lg:w-72 w-full md:w-40 justify-center rounded-lg">

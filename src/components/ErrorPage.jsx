@@ -5,7 +5,7 @@ const ErrorPage = () => {
 
   return (
     <section >
-      <div className='container flex items-center min-h-screen px-6 py-12 mx-auto bg-bottom '>
+      <div className='container flex items-center min-h-screen bg-white px-6 py-12 mx-auto bg-bottom '>
         <div className='flex flex-col items-center  mx-auto text-center p-2 pb-4 bg-transparent rounded-2xl'>
           
           <h1 className='absolute text-2xl font-semibold text-black  md:text-3xl drop-shadow-lg'>

@@ -34,9 +34,9 @@ const About = () => {
 							allowFullScreen
 						></iframe>
 					</div>
-					<div className="flex flex-col justify-center">
-						<p className="py-6 text-lg md:text-xl">Take a tour of our luxurious rooms and explore the beautiful interior details.</p>
-						<button className="btn btn-primary text-white self-center">Explore Rooms</button>
+					<div className="flex flex-col justify-center px-6">
+						<p className="pb-5 text-md md:text-xl">Take a tour of our luxurious rooms and explore the beautiful interior details.</p>
+						<button className="btn btn-primary text-white w-fit justify-start ">Explore Rooms</button>
 					</div>
 				</div>
 			</section>
@@ -44,15 +44,15 @@ const About = () => {
 
 
 			<section>
-				<section className="py-6 bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
+				<section className="py-6 ">
 					<div className="container mx-auto px-4 md:px-8">
 						<h1 className="text-2xl md:text-4xl font-bold text-center">Meet our team</h1>
-						<p className="max-w-md mx-auto text-center text-gray-400 dark:text-gray-600 text-xs my-6">Meet the dedicated individuals who work tirelessly to bring you the best experience. From creative minds to diligent organizers, our team is here to serve you with passion and expertise!</p>
+						<p className="max-w-md mx-auto text-center text-gray-400  text-xs my-6">Meet the dedicated individuals who work tirelessly to bring you the best experience. From creative minds to diligent organizers, our team is here to serve you with passion and expertise!</p>
 						{[...Array(6)].slice(0, 1).map((_, index) => (
 							<div key={index} className="flex flex-col items-center">
 								<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
 								<p className="text-lg font-semibold">{`Meroy Adamth`}</p>
-								<p className="text-gray-400 dark:text-gray-600">Founder and CEO</p>
+								<p className="text-gray-400 ">Founder and CEO</p>
 							</div>
 						))}
 
@@ -62,18 +62,18 @@ const About = () => {
 								<div key={index} className="flex flex-col items-center">
 									<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
 									<p className="text-lg font-semibold">{`Sekio Jamika`}</p>
-									<p className="text-gray-400 dark:text-gray-600">Co-Founder</p>
+									<p className="text-gray-400 ">Co-Founder</p>
 								</div>
 							))}
 						</div>
 
-						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8">
 
 							{[...Array(4)].map((_, index) => (
 								<div key={index} className="flex flex-col items-center">
 									<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
 									<p className="text-lg font-semibold">{`Leroy Jenkins ${index}`}</p>
-									<p className="text-gray-400 dark:text-gray-600">Manager</p>
+									<p className="text-gray-400 ">Manager</p>
 								</div>
 							))}
 						</div>

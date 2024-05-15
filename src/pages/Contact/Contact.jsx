@@ -70,7 +70,7 @@ const Contact = () => {
 
                 <section>
 
-                    <section className="mx-auto lg:px-0 ">
+                    <section className="mx-auto lg:px-0 mb-5 ">
                         <div className="lg:mx-20 mx-5 px-3 flex flex-col justify-center py-8 shadow-md lg:border-2">
                             <section className="py-6">
                                 <div className="grid max-w-6xl grid-cols-1 mx-auto lg:px-8 md:grid-cols-2 md:divide-x-2">

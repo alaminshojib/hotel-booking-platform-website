@@ -94,7 +94,7 @@ const RoomDetails = () => {
   return (
     <div>
       <div>
-        <div className="justify-center m-auto px-5 p-3 mb-3 min-h-screen items-center flex-col flex">
+        <div className="justify-center m-auto px-5 p-3 mb-3 min-h-screen  items-center flex-col flex">
           <section className="lg:flex border rounded-lg shadow-lg">
             <div className="p-5 flex-col items-center my-auto w-96  justify-center mx-auto">
               <div className="relative h-80 rounded-md  overflow-hidden ">
@@ -149,7 +149,7 @@ const RoomDetails = () => {
             </div>
           </section>
           {showBookingSummary && (
-            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
               <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                 <h2 className="text-2xl font-bold mb-4">Booking Summary</h2>
                 {bookingError && <p className="text-red-500 mb-4">{bookingError}</p>}
@@ -184,7 +184,7 @@ const RoomDetails = () => {
             </div>
           )}
           {bookingSuccess && (
-            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
               <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                 <h2 className="text-2xl font-bold text-green-500 mb-4">Booking Success</h2>
                 <p className="mb-4">Your booking for {name} has been confirmed.</p>
@@ -201,7 +201,7 @@ const RoomDetails = () => {
             </div>
           )}
           {bookingError && (
-            <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+            <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
               <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                 <h2 className="text-2xl font-bold text-red-500 mb-4">Sorry to Say</h2>
                 <p className="mb-4">{bookingError}</p>
