@@ -10,17 +10,23 @@ const Contact = () => {
     return (
         <div>
             <section>
-                <div className='h-96 bg-gray-300'>
-                    <div className='h-full flex flex-col m-auto justify-center text-center items-center border'>
-                        <h1 className='text-center font-semibold text-4xl'>Contact Us</h1>
-                        <div className='flex font-medium text-2xl mt-3 gap-2'><Link to={"/"} className='cursor-pointer hover:text-blue-700'>Home</Link><h2>|</h2><Link to={"/rooms"} className='cursor-pointer hover:text-blue-700'>Rooms</Link></div>
-                    </div>
-                </div>
+            <section>
+				<div className='h-96 bg-gradient-to-r from-violet-700 to-indigo-800 text-white'>
+					<div className='h-full flex flex-col justify-center items-center border'>
+						<h1 className='text-center font-semibold text-4xl'>Contact Us</h1>
+						<div className='flex font-medium text-2xl mt-3 gap-2'>
+							<Link to={"/"} className='cursor-pointer hover:text-orange-700'>Home</Link>
+							<h2>|</h2>
+							<Link to={"/rooms"} className='cursor-pointer hover:text-orange-700'>Rooms</Link>
+						</div>
+					</div>
+				</div>
+			</section>
 
 
                 <section>
                     <div className="w-full">
-                        <div className="flex justify-center gap-5 items-center mx-auto px-6">
+                        <div className="flex flex-col lg:flex-row justify-center gap-5 items-center mx-auto px-6">
                             <div className='w-60 h-60 border shadow-lg rounded-md py-4 my-5'>
                                 <div className='m-auto justify-center items-center text-center'>
                                     <div>
@@ -67,7 +73,7 @@ const Contact = () => {
                     <section className="mx-auto lg:px-0 ">
                         <div className="lg:mx-20 mx-5 px-3 flex flex-col justify-center py-8 shadow-md lg:border-2">
                             <section className="py-6">
-                                <div  className="grid max-w-6xl grid-cols-1 mx-auto lg:px-8 md:grid-cols-2 md:divide-x-2">
+                                <div className="grid max-w-6xl grid-cols-1 mx-auto lg:px-8 md:grid-cols-2 md:divide-x-2">
                                     <div className="">
                                         <h1 className="md:text-3xl text-xl font-bold">
                                             <Typewriter

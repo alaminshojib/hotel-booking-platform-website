@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -5,83 +6,78 @@ const About = () => {
 	return (
 		<div>
 			<section>
-				<div className='h-96  bg-gray-300'>
-					<div className='h-full flex flex-col m-auto justify-center text-center items-center border'>
+				<div className='h-96 bg-gradient-to-r from-violet-700 to-indigo-800 text-white'>
+					<div className='h-full flex flex-col justify-center items-center border'>
 						<h1 className='text-center font-semibold text-4xl'>About Us</h1>
-						<div className='flex font-medium text-2xl mt-3 gap-2'><Link to={"/"} className='cursor-pointer hover:text-blue-700'>Home</Link><h2>|</h2><Link to={"/rooms"} className='cursor-pointer hover:text-blue-700'>Rooms</Link></div>
+						<div className='flex font-medium text-2xl mt-3 gap-2'>
+							<Link to={"/"} className='cursor-pointer hover:text-orange-700'>Home</Link>
+							<h2>|</h2>
+							<Link to={"/rooms"} className='cursor-pointer hover:text-orange-700'>Rooms</Link>
+						</div>
 					</div>
 				</div>
-
-				<section>
-
-					<h1 className="text-3xl font-bold mx-auto text-center py-8">EXPLORE THE ROOMS THROUGH BEAUTIFUL VIDEOS.</h1>
-
-					<div className="hero ">
-
-						<div className="hero-content flex-col lg:flex-row justify-center mx-auto w-full">
-
-							<div className='w-1/2'>
-								<iframe
-									id="youtube-player"
-									className='mx-auto justify-center rounded-md'
-									width="500"
-									height="300"
-									src="https://www.youtube.com/embed/zumJJUL_ruM"
-									title="Beautiful Interior Details | Luxury Home Tour"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-									referrerPolicy="strict-origin-when-cross-origin"
-									allowFullScreen
-								></iframe>
+			</section>
 
 
-							</div>
-							<div className='w-1/2'>
-								<p className="py-6 text-3xl">Take a tour of our luxurious rooms and explore the beautiful interior details.</p>
-								<button className="btn btn-primary text-white ">Book Now</button>
-							</div>
-						</div>
+			<section className="container mx-auto px-4 md:px-8">
+				<h1 className="text-xl md:text-2xl font-bold text-center py-8">EXPLORE THE ROOMS THROUGH BEAUTIFUL VIDEOS.</h1>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:py-10 lg:pb-16 gap-3 justify-center">
+					<div className="aspect-w-16 aspect-h-9">
+						<iframe
+							id="youtube-player"
+							className="mx-auto rounded-md"
+							src="https://www.youtube.com/embed/zumJJUL_ruM"
+							title="Beautiful Interior Details | Luxury Home Tour"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							referrerPolicy="strict-origin-when-cross-origin"
+							allowFullScreen
+						></iframe>
 					</div>
-				</section>
-				<section>
+					<div className="flex flex-col justify-center">
+						<p className="py-6 text-lg md:text-xl">Take a tour of our luxurious rooms and explore the beautiful interior details.</p>
+						<button className="btn btn-primary text-white self-center">Explore Rooms</button>
+					</div>
+				</div>
+			</section>
 
-					<section className="py-6 bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
-						<div className="container flex flex-col items-center justify-center p-4 mx-auto space-y-8 sm:p-10">
-							<h1 className="text-4xl font-bold leading-none text-center sm:text-5xl">Meet our team</h1>
-							<p className="max-w-2xl text-center text-gray-400 dark:text-gray-600"> Meet the dedicated individuals who work tirelessly to bring you the best experience. From creative minds to diligent organizers, our team is here to serve you with passion and expertise.!</p>
-							<div className="flex flex-row flex-wrap-reverse justify-center">
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?0" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
+
+
+			<section>
+				<section className="py-6 bg-gray-800 dark:bg-gray-100 text-gray-100 dark:text-gray-800">
+					<div className="container mx-auto px-4 md:px-8">
+						<h1 className="text-2xl md:text-4xl font-bold text-center">Meet our team</h1>
+						<p className="max-w-md mx-auto text-center text-gray-400 dark:text-gray-600 text-xs my-6">Meet the dedicated individuals who work tirelessly to bring you the best experience. From creative minds to diligent organizers, our team is here to serve you with passion and expertise!</p>
+						{[...Array(6)].slice(0, 1).map((_, index) => (
+							<div key={index} className="flex flex-col items-center">
+								<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
+								<p className="text-lg font-semibold">{`Meroy Adamth`}</p>
+								<p className="text-gray-400 dark:text-gray-600">Founder and CEO</p>
+							</div>
+						))}
+
+						<div className="grid grid-cols-2 gap-8 justify-between items-center w-fit mx-auto mt-8">
+
+							{[...Array(2)].map((_, index) => (
+								<div key={index} className="flex flex-col items-center">
+									<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
+									<p className="text-lg font-semibold">{`Sekio Jamika`}</p>
 									<p className="text-gray-400 dark:text-gray-600">Co-Founder</p>
 								</div>
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?1" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
-									<p className="text-gray-400 dark:text-gray-600">Senior Designer</p>
-								</div>
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?2" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
-									<p className="text-gray-400 dark:text-gray-600">Visual Designer</p>
-								</div>
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?3" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
-									<p className="text-gray-400 dark:text-gray-600">Visual Designer</p>
-								</div>
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?4" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
-									<p className="text-gray-400 dark:text-gray-600">Visual Designer</p>
-								</div>
-								<div className="flex flex-col justify-center m-8 text-center">
-									<img alt="" className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full bg-gray-500 dark:bg-gray-500" src="https://source.unsplash.com/100x100/?portrait?5" />
-									<p className="text-xl font-semibold leading-tight">Leroy Jenkins</p>
-									<p className="text-gray-400 dark:text-gray-600">Founder and CEO</p>
-								</div>
-							</div>
+							))}
 						</div>
-					</section>
+
+						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+
+							{[...Array(4)].map((_, index) => (
+								<div key={index} className="flex flex-col items-center">
+									<img alt="" className="w-24 h-24 mb-2 rounded-full bg-gray-500" src={`https://source.unsplash.com/100x100/?portrait?${index}`} />
+									<p className="text-lg font-semibold">{`Leroy Jenkins ${index}`}</p>
+									<p className="text-gray-400 dark:text-gray-600">Manager</p>
+								</div>
+							))}
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>

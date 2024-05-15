@@ -57,11 +57,12 @@ const MyBookings = () => {
                 <div className="text-center text-gray-500 m-10"><span className="loading loading-dots loading-lg"></span>
                 </div>
             ) : error ? (
-                <div className="text-center text-red-500 mt-4">Error: {error}</div>
+                <div className="text-center text-red-500 mt-4"> <span className="loading loading-dots loading-lg"></span>
+                </div>
             ) : (
                 <React.Fragment>
                     <div className="flex flex-col justify-center items-center pt-5 ">
-                        <h1 className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '>
+                        <h1 className='mx-auto text-center md:m-5 m-2 md:text-xl text-md font-bold '>
                             <Typewriter
                                 words={['My Booking List']}
                                 loop={0}
@@ -75,7 +76,7 @@ const MyBookings = () => {
                     </div>
 
 
-                    <p className='text-gray-500 pb-5 mx-auto justify-center text-center w-3/5'>Enjoy your cozy rooms, stylish apartments, and serene cottages.</p>
+                    <p className='text-gray-500 pb-5 mx-auto justify-center text-sm text-center w-3/5'>Enjoy your cozy rooms, stylish apartments, and serene cottages.</p>
 
                     {currentBookings.length < 1 ? (
                         <EmptyState
@@ -125,9 +126,8 @@ const MyBookings = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <div className="bg-white p-8 rounded-lg">
                         <p className="text-lg text-gray-800 mb-4">Error fetching data. Do you want to refresh?</p>
-                        <div className="flex justify-between">
+                        <div className="flex mx-auto justify-center w-fit items-center">
                             <button onClick={handleRefresh} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Refresh</button>
-                            <button onClick={() => setShowRefreshModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
                         </div>
                     </div>
                 </div>

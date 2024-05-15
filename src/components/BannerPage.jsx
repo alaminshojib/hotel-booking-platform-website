@@ -27,6 +27,8 @@ export default function Banner() {
       const data = await response.json();
       setServices(data);
     } catch (error) {
+      window.location.reload();
+
     }
   };
 
