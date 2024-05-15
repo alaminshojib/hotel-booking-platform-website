@@ -63,7 +63,7 @@ const Rooms = () => {
       </h1>
       <p className='text-gray-500 pb-5 lg:px-5 mx-auto justify-center text-xs text-center lg:w-3/5'>Discover our range of comfortable and stylish rooms tailored to suit your needs. Browse through our selection and find your ideal stay.</p>
       <RoomFilter onSubmit={handleFilter} />
-      <div className='grid grid-cols-1 mx-auto justify-center'>
+      <div className='grid grid-cols-1  mx-auto justify-center'>
         {rooms.length > 0 && filteredRooms.map(room => (
           <Room key={room.name} room={room} onClick={handleClickRoom} />
         ))}

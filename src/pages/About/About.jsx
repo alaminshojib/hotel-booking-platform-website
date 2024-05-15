@@ -5,7 +5,7 @@ const About = () => {
 	return (
 		<div>
 			<section>
-				<div className='h-96 bg-gray-300'>
+				<div className='h-96  bg-gray-300'>
 					<div className='h-full flex flex-col m-auto justify-center text-center items-center border'>
 						<h1 className='text-center font-semibold text-4xl'>About Us</h1>
 						<div className='flex font-medium text-2xl mt-3 gap-2'><Link to={"/"} className='cursor-pointer hover:text-blue-700'>Home</Link><h2>|</h2><Link to={"/rooms"} className='cursor-pointer hover:text-blue-700'>Rooms</Link></div>
