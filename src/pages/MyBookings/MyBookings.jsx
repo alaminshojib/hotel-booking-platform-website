@@ -13,6 +13,7 @@ const MyBookings = () => {
     const [bookingsPerPage] = useState(10);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showRefreshModal, setShowRefreshModal] = useState(false); // State to control modal display
 
     useEffect(() => {
         if (!user) return;
@@ -32,6 +33,7 @@ const MyBookings = () => {
             } catch (error) {
                 setLoading(false);
                 setError("Error fetching data");
+                setShowRefreshModal(true); // Show modal on error
             }
         };
 
@@ -43,6 +45,11 @@ const MyBookings = () => {
     const indexOfLastBooking = currentPage * bookingsPerPage;
     const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
     const currentBookings = filteredRooms.slice(indexOfFirstBooking, indexOfLastBooking);
+
+    const handleRefresh = () => {
+        setShowRefreshModal(false); // Close modal
+        window.location.reload(); // Refresh window
+    };
 
     return (
         <div>
@@ -112,6 +119,18 @@ const MyBookings = () => {
                         </button>
                     </div>
                 </React.Fragment>
+            )}
+            {/* Modal for refresh */}
+            {showRefreshModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="bg-white p-8 rounded-lg">
+                        <p className="text-lg text-gray-800 mb-4">Error fetching data. Do you want to refresh?</p>
+                        <div className="flex justify-between">
+                            <button onClick={handleRefresh} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Refresh</button>
+                            <button onClick={() => setShowRefreshModal(false)} className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

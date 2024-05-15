@@ -50,7 +50,7 @@ const Rooms = () => {
 
   return (
     <div>
-      <h1 className='mx-auto text-center md:m-5 m-2 md:text-3xl text-xl font-bold '>
+      <h1 className='mx-auto text-center md:m-5 m-2 md:text-xl text-md font-bold '>
         <Typewriter
           words={['Explore All Rooms']}
           loop={0}
@@ -61,7 +61,7 @@ const Rooms = () => {
           typeWriterSpan={props => <span {...props} className="inline-block"/>}
         />
       </h1>
-      <p className='text-gray-500 pb-5 px-5 mx-auto justify-center text-center lg:w-3/5'>Discover our range of comfortable and stylish rooms tailored to suit your needs. Browse through our selection and find your ideal stay.</p>
+      <p className='text-gray-500 pb-5 lg:px-5 mx-auto justify-center text-xs text-center lg:w-3/5'>Discover our range of comfortable and stylish rooms tailored to suit your needs. Browse through our selection and find your ideal stay.</p>
       <RoomFilter onSubmit={handleFilter} />
       <div className='grid grid-cols-1 mx-auto justify-center'>
         {rooms.length > 0 && filteredRooms.map(room => (

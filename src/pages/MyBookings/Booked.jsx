@@ -309,7 +309,7 @@ const Booked = ({ data, setRooms }) => {
                 </div>
             )}
 
-           
+
             {/* Update Booking Summary Modal */}
             {showBookingSummary && (
                 <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
@@ -347,13 +347,13 @@ const Booked = ({ data, setRooms }) => {
                     </div>
                 </div>
             )}
-            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-2 h-40 w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1 hover:bg-green-100 cursor-pointer" key={data._id}>
+            <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border mb-2 h-40 lg:w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1 hover:bg-green-100 cursor-pointer" key={data._id}>
                 <div>
                     <Link className='tooltip tooltip-accent' to={`/roomDetails/${data.roomId}`} data-tip={"View Details"}>
-                        <div className="relative overflow-hidden h-36 w-72 mx-auto justify-center rounded-lg">
+                    <div className="flex  h-16 md:h-20 lg:h-full  lg:w-72 w-full md:w-40 justify-center rounded-lg">
                             <img
-                                className="object-cover h-36 w-full mx-auto justify-center rounded-lg"
-                                src={data.images[currentImageIndex]}
+                className="object-cover  flex w-20 md:w-36 md:h-28 lg:h-28 my-2 lg:w-64 h-16  items-center  mx-auto justify-center rounded-lg"
+                src={data.images[currentImageIndex]}
                                 alt={data.name}
                             />
                         </div>
@@ -361,48 +361,44 @@ const Booked = ({ data, setRooms }) => {
                 </div>
                 <Link to={`/roomDetails/${data.roomId}`}>
                     <div>
-                        <div className=" py-2 mx-auto justify-center w-2/3">
-                            <div className="font-bold text-sm mb-1">{data.name}</div>
-                            <p className="text-orange-400 font-bold">
+                        <div className=" py-1 lg:py-2 mx-auto justify-center lg:w-2/3">
+                            <div className="font-bold text-xs mb-1">{data.name}</div>
+                            <p className="text-orange-400 text-xs font-bold">
                                 Price : ${data.price_per_night}
                             </p>
-                            <p className="text-gray-600 text-xs">
-                                Room size: <span className='font-bold'>{data.room_size}</span>
-                            </p>
-                            
-                            <p className="text-green-600 text-xs">
-                                Special Offer: <span className='font-bold'>{data.special_offers || "No offer available"}</span>
-                            </p>
+
 
                         </div>
-                    </div></Link>
-                <div>
-                    <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
-                    <p className="text-gray-600 text-lg font-semibold text-center">
-                                Booking Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
-                            </p>
-                        <Link
-                            className="bg-blue-500 hover:bg-blue-700 text-white  font-bol py-1  px-4 rounded-lg"
-                            onClick={handleReviewButtonClick}
-                        >
-                            <div className='flex justify-center gap-1 items-center'><MdOutlineReviews /><p>Leave a Review </p></div>
-                        </Link>
-
-                        <div className="flex gap-2 mx-auto justify-center">
+                    </div>
+                    <div className="flex md:flex-row flex-col justify-start w-fit gap-2 py-1 md:mx-auto md:justify-center">
                             <Link
-                                className="bg-blue-500 hover:bg-blue-700 text-white  font-bol   px-4 rounded-lg"
+                                className="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 font-bol py-1  lg:px-4 rounded-lg"
                                 onClick={() => handleUpdateDate(data._id, data)}
                             >
                                 <div className='flex justify-center gap-1 items-center'><MdUpdate /><p>Update </p></div>
                             </Link>
                             <Link
-                                className="bg-red-500 hover:bg-red-700 text-white font-bol py-1  px-4 rounded-lg"
+                                className="bg-red-500 hover:bg-red-700 text-white font-bol px-2 py-1 text-xs  lg:px-4 rounded-lg"
                                 onClick={() => handleDelete(data.roomId)}
                                 disabled={isDeleting}
                             >
                                 {isDeleting ? 'Canceling...' : <div className='flex justify-center gap-1 items-center'><MdDeleteForever /><p>Cancel </p></div>}
                             </Link>
                         </div>
+                </Link>
+                <div>
+                    <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
+                        <p className="text-gray-600 text-xs text-md font-semibold text-center mb-2">
+                            Booking Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
+                        </p>
+                        <Link
+                            className="bg-blue-500 hover:bg-blue-700 text-white  font-bol py-1  lg:px-4 rounded-lg"
+                            onClick={handleReviewButtonClick}
+                        >
+                            <div className='flex justify-center gap-1 text-xs items-center'><MdOutlineReviews /><p>Leave a Review </p></div>
+                        </Link>
+
+
                     </div>
                 </div>
             </div>
