@@ -81,7 +81,7 @@ const Room = ({ room, onClick }) => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+        <div className="fixed inset-0 flex items-center justify-center text-black bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 max-w-md rounded-lg">
             <h2 className="text-xl font-bold mb-4">Before leaving a review, make a booking.</h2>
             <div className="flex justify-center gap-2">

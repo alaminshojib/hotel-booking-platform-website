@@ -171,12 +171,12 @@ const Booked = ({ data, setRooms }) => {
         e.preventDefault(); // Prevent default form submission behavior
         try {
             setShowReviewModal(true);
-    
+
             // Validate rating range
             if (parseFloat(rating) < 0.1 || parseFloat(rating) > 5) {
                 throw new Error('Rating must be a number between 0.1 and 5.1');
             }
-    
+
             const response = await axios.post('https://hotel-booking-platform-server-side.vercel.app/reviews', {
                 displayName: displayName || user.displayName, // Use user.displayName if displayName is empty
                 rating: parseFloat(rating), // Parse rating as float
@@ -184,12 +184,12 @@ const Booked = ({ data, setRooms }) => {
                 roomId: data.roomId, // Assuming roomId is available in the data object
                 photoURL: photoURL || user.photoURL // Assuming user.photoURL contains the URL of the user's photo
             });
-    
+
             if (response.data.success) {
                 // Clear review text and rating
                 setReviewText('');
                 setRating(null); // Reset rating to null or ''
-    
+
                 // Show success notification
                 Swal.fire({
                     icon: 'success',
@@ -201,22 +201,19 @@ const Booked = ({ data, setRooms }) => {
             }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data && error.response.data.message === "You have already reviewed this item.") {
-                // If the user has already reviewed this room, show a specific error message
                 setReviewError('You have already reviewed this room');
             } else {
-                // For other errors, show a generic error message
                 setReviewError('Failed to submit review. Please try again later.');
             }
         } finally {
             setLoading(false);
-            setShowReviewModal(false); // Set loading to false after data fetching completes
+            setShowReviewModal(false);
         }
     };
-    
+
 
     const handleReviewButtonClick = () => {
         if (user) {
-            // If user is authenticated, show the review modal
             setShowReviewModal(true);
         }
     };
@@ -230,7 +227,7 @@ const Booked = ({ data, setRooms }) => {
                         <p className="mb-4">{reviewError}</p>
                         <button
                             className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
-                            onClick={() => setReviewError(null)} // Clear the review error message
+                            onClick={() => setReviewError(null)}
                         >
                             Close
                         </button>
@@ -243,21 +240,33 @@ const Booked = ({ data, setRooms }) => {
                         <h2 className="text-md font-bold mb-4">Write a Review</h2>
                         <form onSubmit={handleSubmitReview}>
                             <div className="mb-2">
+
+                                <label htmlFor="date" className="block text-xs font-medium text-gray-700">Date:</label>
+                                <input
+                                    id="date"
+                                    type="text"
+                                    value={new Date().toLocaleDateString()} // Get current date
+                                    disabled
+                                    className="border bg-white rounded p-1 mb-1 w-full"
+                                />
+
+
                                 <label htmlFor="displayName" className="block text-xs font-medium text-gray-700">Display Name:</label>
                                 <input
+                                    disabled
                                     id="displayName"
                                     type="text"
                                     value={user.displayName} // Assuming user object includes displayName
                                     onChange={(e) => setDisplayName(e.target.value)}
-                                    className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
+                                    className="border bg-white  rounded p-1 mb-1 w-full"
                                 />
                             </div>
                             <div className="mb-2">
-                                <label htmlFor="displayName" className="block text-xs font-medium text-gray-700">User Photo:</label>
+                                <label htmlFor="photoURL" className="block text-xs font-medium text-gray-700">User Photo:</label>
                                 <input
                                     id="photoURL"
                                     type="text"
-                                    value={user.photoURL} // Assuming user object includes displayName
+                                    value={user.photoURL}
                                     onChange={(e) => setPhotoURL(e.target.value)}
                                     className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
                                 />
@@ -268,9 +277,9 @@ const Booked = ({ data, setRooms }) => {
                                     placeholder='Give Rating'
                                     id="rating"
                                     type="number"
-                                    step="0.1" // Increment or decrement by 0.1
-                                    value={rating || ''} // Ensure null is handled
-                                    onChange={(e) => setRating(e.target.value)} // Ensure rating is parsed as integer
+                                    step="0.1" 
+                                    value={rating || ''} 
+                                    onChange={(e) => setRating(e.target.value)} 
                                     className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
                                 />
                             </div>
@@ -282,7 +291,7 @@ const Booked = ({ data, setRooms }) => {
                                     value={reviewText}
                                     onChange={(e) => setReviewText(e.target.value)}
                                     placeholder="Write your review here..."
-                                    className="border bg-white border-gray-300 rounded p-2 mb-4 w-full h-40"
+                                    className="border bg-white border-gray-300 rounded p-2 mb-4 w-full h-20"
                                 ></textarea>
                             </div>
                             <div className="flex justify-center gap-5 items-center">
@@ -366,10 +375,10 @@ const Booked = ({ data, setRooms }) => {
             <div className="grid grid-cols-3 divide-x-2 items-center my-5 shadow-md border-2 mb-2 h-40 lg:w-4/5 mx-auto justify-center rounded-lg hover:border-green-700 px-1  cursor-pointer" key={data._id}>
                 <div>
                     <Link className='tooltip tooltip-accent' to={`/roomDetails/${data.roomId}`} data-tip={"View Details"}>
-                    <div className="flex  h-16 md:h-20 lg:h-full  lg:w-72 w-full md:w-40 justify-center rounded-lg">
+                        <div className="flex  h-16 md:h-20 lg:h-full  lg:w-72 w-full md:w-40 justify-center rounded-lg">
                             <img
-                className="object-cover  flex w-20 md:w-36 md:h-28 lg:h-28 my-2 lg:w-64 h-16  items-center  mx-auto justify-center rounded-lg"
-                src={data.images[currentImageIndex]}
+                                className="object-cover  flex w-20 md:w-36 md:h-28 lg:h-28 my-2 lg:w-64 h-16  items-center  mx-auto justify-center rounded-lg"
+                                src={data.images[currentImageIndex]}
                                 alt={data.name}
                             />
                         </div>
@@ -387,20 +396,20 @@ const Booked = ({ data, setRooms }) => {
                         </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-start w-fit gap-2 py-1 md:mx-auto md:justify-center">
-                            <Link
-                                className="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 font-bol py-1  lg:px-4 rounded-lg"
-                                onClick={() => handleUpdateDate(data._id, data)}
-                            >
-                                <div className='flex justify-center gap-1 items-center'><MdUpdate /><p>Update </p></div>
-                            </Link>
-                            <Link
-                                className="bg-red-500 hover:bg-red-700 text-white font-bol px-2 py-1 text-xs  lg:px-4 rounded-lg"
-                                onClick={() => handleDelete(data.roomId)}
-                                disabled={isDeleting}
-                            >
-                                {isDeleting ? 'Canceling...' : <div className='flex justify-center gap-1 items-center'><MdDeleteForever /><p>Cancel </p></div>}
-                            </Link>
-                        </div>
+                        <Link
+                            className="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 font-bol py-1  lg:px-4 rounded-lg"
+                            onClick={() => handleUpdateDate(data._id, data)}
+                        >
+                            <div className='flex justify-center gap-1 items-center'><MdUpdate /><p>Update </p></div>
+                        </Link>
+                        <Link
+                            className="bg-red-500 hover:bg-red-700 text-white font-bol px-2 py-1 text-xs  lg:px-4 rounded-lg"
+                            onClick={() => handleDelete(data.roomId)}
+                            disabled={isDeleting}
+                        >
+                            {isDeleting ? 'Canceling...' : <div className='flex justify-center gap-1 items-center'><MdDeleteForever /><p>Cancel </p></div>}
+                        </Link>
+                    </div>
                 </Link>
                 <div>
                     <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">

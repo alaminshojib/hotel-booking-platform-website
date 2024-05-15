@@ -15,15 +15,13 @@ const UserReviews = () => {
     try {
       const response = await axios.get('https://hotel-booking-platform-server-side.vercel.app/reviews');
       // Sort reviews in descending order based on timestamp
-      const sortedReviews = response.data.sort((a, b) => b.timestamp - a.timestamp);
+      const sortedReviews = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
       setReviews(sortedReviews);
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
       window.location.reload();
     }
   };
-
-
 
   return (
     <div className="mx-auto max-w-5xl my-2 md:my-5">
@@ -52,7 +50,6 @@ const UserReviews = () => {
             </div>
           ))}
         </div>
-       
       </div>
     </div>
   );

@@ -33,7 +33,7 @@ const PigeonMap = () => {
 
   return (
     <div className="map-container">
-      <div className="map rounded-lg justify-center mx-auto flex">
+      <div className="map rounded-lg text-black cursor-pointer justify-center mx-auto flex"> {/* Added cursor-pointer style */}
         <Map center={[23.685, 90.3563]} zoom={8} width={deviceSize === 'small' ? 300 : deviceSize === 'medium' ? 500 : 900} height={deviceSize === 'small' ? 200 : deviceSize === 'medium' ? 300 : 400}>
           <Marker anchor={[23.685, 90.3563]} payload={{ title: 'Bangladesh', description: 'Default Location' }} />
           <CustomOverlay anchor={[23.685, 90.3563]} payload={{ title: 'Bangladesh', description: 'Default Location' }} />
