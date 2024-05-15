@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './Map';
+import PigeonMap from './pigeonMap';
 
 const MapDetails = () => {
     return (
@@ -10,7 +10,7 @@ const MapDetails = () => {
         <p className='text-gray-500 py-4 text-xs md:text-sm'>Explore our hotel's prime location with ease using our interactive map feature.  </p>
       </div>
         <div className="container flex flex-col mx-auto  justify-center lg:flex-row">
-            <div><Map></Map></div>
+            <div><PigeonMap></PigeonMap></div>
            
         </div>
     </section>

@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import ReviewItem from './ReviewItem';
-import { GrLinkNext, GrLinkPrevious } from 'react-icons/gr';
 import { Typewriter } from 'react-simple-typewriter';
 
 const UserReviews = () => {
   const [reviews, setReviews] = useState([]);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const sliderRef = useRef(null);
 
   useEffect(() => {
@@ -15,7 +13,7 @@ const UserReviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('https://hotel-booking-platform-server-side.vercel.app/reviews', { withCredentials: true });
+      const response = await axios.get('https://hotel-booking-platform-server-side.vercel.app/reviews');
       // Sort reviews in descending order based on timestamp
       const sortedReviews = response.data.sort((a, b) => b.timestamp - a.timestamp);
       setReviews(sortedReviews);
@@ -25,21 +23,7 @@ const UserReviews = () => {
     }
   };
 
-  const scrollNext = () => {
-    if (sliderRef.current) {
-      const newPosition = scrollPosition + sliderRef.current.offsetWidth;
-      setScrollPosition(newPosition);
-      sliderRef.current.scrollLeft = newPosition;
-    }
-  };
 
-  const scrollPrev = () => {
-    if (sliderRef.current) {
-      const newPosition = scrollPosition - sliderRef.current.offsetWidth;
-      setScrollPosition(newPosition >= 0 ? newPosition : 0);
-      sliderRef.current.scrollLeft = newPosition >= 0 ? newPosition : 0;
-    }
-  };
 
   return (
     <div className="mx-auto max-w-5xl my-2 md:my-5">

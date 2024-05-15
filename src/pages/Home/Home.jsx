@@ -10,6 +10,23 @@ import CookieModal from '../../components/CookieModal';
 const Home = () => {
   const [showSpecialOffersModal, setShowSpecialOffersModal] = useState(true);
   const [showCookieModal, setShowCookieModal] = useState(true);
+  const [animation, setAnimation] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById('home');
+      if (element) {
+        const boundingClientRect = element.getBoundingClientRect();
+        const top = boundingClientRect.top;
+        if (top >= 0 && top <= window.innerHeight) {
+          setAnimation(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const cookiesAccepted = localStorage.getItem('cookiesAccepted');
@@ -33,7 +50,7 @@ const Home = () => {
   };
 
   return (
-    <div className="App">
+    <div id="home" className={`App ${animation ? 'aos-animate' : ''}`}>
       {showSpecialOffersModal && <SpecialOffersModal key="specialOffersModal" closeModal={closeModal} />}
       <Banner />
       <FeaturedRooms />

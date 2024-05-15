@@ -26,6 +26,7 @@ const Rooms = () => {
       setFilteredRooms(availableRooms);
     } catch (error) {
       console.error('Error fetching rooms:', error);
+      window.location.reload();
     }
   };
 

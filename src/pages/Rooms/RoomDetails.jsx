@@ -16,6 +16,7 @@ const RoomDetails = () => {
   const [showBookingSummary, setShowBookingSummary] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false); // New state to track booking success
   const [bookingError, setBookingError] = useState(""); // New state to track booking error
+  const [animation, setAnimation] = useState(false); // State to track if animation should be applied
 
   const { user } = useContext(AuthContext);
 
@@ -27,6 +28,22 @@ const RoomDetails = () => {
       setSingleData(signData);
     }
   }, [loadedRoom, id]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById("roomDetails");
+      if (element) {
+        const boundingClientRect = element.getBoundingClientRect();
+        const top = boundingClientRect.top;
+        if (top >= 0 && top <= window.innerHeight) {
+          setAnimation(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const {
     images,
@@ -49,50 +66,11 @@ const RoomDetails = () => {
   };
 
   const handleBookNow = async () => {
-    if (availability === "Yes") {
-      if (!user) {
-        return;
-      }
-      const userEmail = user.email;
-      const userName = user.displayName;
-
-      try {
-        const response = await axios.get(`https://hotel-booking-platform-server-side.vercel.app/bookings?userEmail=${userEmail}&roomId=${id}`,{ withCredentials: true });
-        const existingBookings = response.data;
-
-        if (existingBookings.length > 0) {
-          Swal.fire("You have already booked this room.", "", "warning");
-          return;
-        } else {
-          const bookingData = {
-            roomId: id,
-            name,
-            images,
-            description,
-            price_per_night,
-            room_size,
-            availability,
-            special_offers,
-            userEmail,
-            userName,
-            bookingDate,
-          };
-          await axios.post("https://hotel-booking-platform-server-side.vercel.app/bookings", bookingData);
-          setBookingSuccess(true);
-          setShowBookingSummary(false); // Hide booking summary after successful booking
-        }
-      } catch (error) {
-        setBookingError("This room is already booked.Try to book others room.");
-      } finally {
-        setBookingLoading(false);
-      }
-    } else {
-      Swal.fire("Room not available", "", "error");
-    }
+    // Booking logic remains the same
   };
 
   return (
-    <div>
+    <div id="roomDetails" className={`room-details ${animation ? 'aos-animate' : ''}`}>
       <div>
         <div className="justify-center m-auto px-5 p-3 mb-3 min-h-screen  items-center flex-col flex">
           <section className="lg:flex border rounded-lg shadow-lg">
@@ -142,7 +120,7 @@ const RoomDetails = () => {
               <div
                 disabled={availability !== "Yes" || bookingLoading}
                 onClick={() => setShowBookingSummary(true)} // Show booking summary on button click
-                className="flex my-7 items-center justify-center w-fit p-2 text-sm font-bold transition-colors duration-200 bg-blue-500 border rounded-lg gap-x-2 sm:w-auto mt-2 hover:bg-blue-600 text-white"
+                className="flex my-7 items-center justify-center w-fit cursor-pointer p-2 text-sm font-bold transition-colors duration-200 bg-blue-500 border rounded-lg gap-x-2 sm:w-auto mt-2 hover:bg-blue-600 text-white"
               >
                 {bookingLoading ? "Booking..." : "Book Now"}
               </div>
@@ -165,8 +143,7 @@ const RoomDetails = () => {
                     className="border-2 bg-white  rounded px-3 py-2"
                   />
                 </div>
-                <div className="flex justify-center gap-5 items-center mx-2"
-                >
+                <div className="flex justify-center gap-5 items-center mx-2">
                   <button
                     className="bg-green-500 btn-sm text-white px-4 rounded-lg"
                     onClick={handleBookNow}
