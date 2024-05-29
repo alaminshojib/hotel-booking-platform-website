@@ -7,6 +7,7 @@ import MapDetails from '../../components/MapDetails';
 import Trustplot from '../../components/Trustplot';
 import SpecialOffersModal from '../../components/SpecialOffersModal';
 import CookieModal from '../../components/CookieModal';
+import HelpCenter from '../../components/HelpCenter';
 
 const Home = () => {
   const [showSpecialOffersModal, setShowSpecialOffersModal] = useState(true);
@@ -44,6 +45,7 @@ const Home = () => {
       <FeaturedRooms scrollToSection={scrollToSection} />
       <MapDetails scrollToSection={scrollToSection} />
       <UserReviews scrollToSection={scrollToSection} />
+      <HelpCenter></HelpCenter>
       <Trustplot scrollToSection={scrollToSection} />
       {showCookieModal && <CookieModal key="cookieModal" acceptCookies={acceptCookies} rejectCookies={rejectCookies} />}
     </div>
