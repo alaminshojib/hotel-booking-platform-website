@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { MdOutlineReviews } from 'react-icons/md';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Room = ({ room, onClick }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -55,27 +56,28 @@ const Room = ({ room, onClick }) => {
         <div>
           <Link to={`/roomDetails/${room._id}`}>
             <div className="lg:px-6 px-2 py-2 mx-auto justify-center lg:w-2/3">
-              <div className="font-bold text-sm lg:text-lg mb-2">{room.name}</div>
-              <p className="text-green-600 text-xs">
-                <span className="font-bold">{availabilityStatus}</span>
+              <div className="font-semibold text-sm lg:text-lg mb-2">{room.name}</div>
+              <p className=" text-xs">
+                Room Size:<span className="font-bold text-green-600"> {room.room_size}</span>
               </p>
+
             </div>
           </Link>
         </div>
         <div>
           <div className="w-fit space-y-1 mx-auto mb-2 text-center justify-center">
-            <p className="text-orange-400 text-xs lg:text-xl font-bold my-1">
-              Price : ${room.price_per_night}
+            <p className="text-xs lg:text-lg  my-1">
+              Price Per Night: <span className='text-blue-600 font-bold'>${room.price_per_night}</span>
             </p>
-            <p className="text-orange-600 text-xs py-1">
-              Total Reviews: <span className="font-bold">{room.reviews ? room.reviews.length : 0}</span>
+            <p className=" text-xs py-1">
+              Total Reviews: <span className="font-bold text-orange-400">{room.reviews ? room.reviews.length : 0}</span>
             </p>
-            <button
-              className="bg-blue-500 text-xs md:text-sm w-fit mx-auto flex hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full"
+            <Link
+              className="bg-blue-500 hover:bg-blue-700 text-white w-fit mx-auto flex font-bol py-1  lg:px-4 rounded-lg"
               onClick={handleReviewClick}
             >
-              Review
-            </button>
+              <div className='flex justify-center gap-1 text-xs items-center'><MdOutlineReviews /><p>Leave a Review </p></div>
+            </Link>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ const Trustplot = () => {
         <div>
             <section className="p-6 ">
 	<div className="container p-4 mx-auto text-center">
-		<h2 className="text-4xl font-bold">Trusted by the industry leaders</h2>
+		<h2 className="lg:text-3xl text-xl p-2 font-bold">Trusted by the industry leaders</h2>
 	</div>
 	<div className="container flex flex-wrap justify-center mx-auto ">
 		<div className="flex justify-center w-1/2 p-6 align-middle md:w-1/3 xl:w-1/4">

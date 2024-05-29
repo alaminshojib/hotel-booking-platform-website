@@ -15,9 +15,11 @@ const MyBookings = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!user) return;
-
+        let cancelRequest = false; // Flag to cancel pending requests on unmount or user state change
+    
         const fetchData = async () => {
+            if (!user || cancelRequest) return; // Bail out if no user or component is unmounted
+    
             try {
                 setLoading(true);
                 setError(null);
@@ -27,18 +29,26 @@ const MyBookings = () => {
                         email: user.email
                     }
                 });
-                setFilteredRooms(response.data.bookings);
-                setLoading(false);
+                if (!cancelRequest) { // Check if component is still mounted before updating state
+                    setFilteredRooms(response.data.bookings);
+                    setLoading(false);
+                }
             } catch (error) {
-                setLoading(false);
-                setError("Error fetching data");
-                window.location.reload();
+                if (!cancelRequest) {
+                    setLoading(false);
+                    setError("Error fetching data");
+                }
             }
         };
-
-        fetchData();
+    
+        fetchData(); // Initial data fetch
+    
+        // Cleanup function to cancel pending requests on unmount or user state change
+        return () => {
+            cancelRequest = true; // Set flag to true when component is unmounted or user state changes
+        };
     }, [user]);
-
+    
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const indexOfLastBooking = currentPage * bookingsPerPage;

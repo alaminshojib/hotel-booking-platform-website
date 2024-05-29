@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { animateScroll as scroll } from 'react-scroll';
 import Banner from '../../components/BannerPage';
 import FeaturedRooms from '../../components/FeaturedRooms';
 import UserReviews from '../../components/UserReviews';
@@ -10,23 +11,6 @@ import CookieModal from '../../components/CookieModal';
 const Home = () => {
   const [showSpecialOffersModal, setShowSpecialOffersModal] = useState(true);
   const [showCookieModal, setShowCookieModal] = useState(true);
-  const [animation, setAnimation] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById('home');
-      if (element) {
-        const boundingClientRect = element.getBoundingClientRect();
-        const top = boundingClientRect.top;
-        if (top >= 0 && top <= window.innerHeight) {
-          setAnimation(true);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const cookiesAccepted = localStorage.getItem('cookiesAccepted');
@@ -49,14 +33,18 @@ const Home = () => {
     setShowSpecialOffersModal(false);
   };
 
+  const scrollToSection = (sectionId) => {
+    scroll.scrollTo(sectionId);
+  };
+
   return (
-    <div id="home" className={`App ${animation ? 'aos-animate' : ''}`}>
+    <div id="home" className="App">
       {showSpecialOffersModal && <SpecialOffersModal key="specialOffersModal" closeModal={closeModal} />}
-      <Banner />
-      <FeaturedRooms />
-      <MapDetails />
-      <UserReviews />
-      <Trustplot />
+      <Banner scrollToSection={scrollToSection} />
+      <FeaturedRooms scrollToSection={scrollToSection} />
+      <MapDetails scrollToSection={scrollToSection} />
+      <UserReviews scrollToSection={scrollToSection} />
+      <Trustplot scrollToSection={scrollToSection} />
       {showCookieModal && <CookieModal key="cookieModal" acceptCookies={acceptCookies} rejectCookies={rejectCookies} />}
     </div>
   );

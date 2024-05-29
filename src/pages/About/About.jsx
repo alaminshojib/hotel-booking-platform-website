@@ -6,7 +6,7 @@ const About = () => {
 	return (
 		<div>
 			<section>
-				<div className='h-96 bg-gradient-to-r from-violet-700 to-indigo-800 text-white'>
+				<div className='h-64 bg-gradient-to-r from-blue-600 to-red-400 text-white'>
 					<div className='h-full flex flex-col justify-center items-center border'>
 						<h1 className='text-center font-semibold text-4xl'>About Us</h1>
 						<div className='flex font-medium text-2xl mt-3 gap-2'>

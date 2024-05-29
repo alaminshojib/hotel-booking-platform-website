@@ -16,34 +16,17 @@ const RoomDetails = () => {
   const [showBookingSummary, setShowBookingSummary] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false); // New state to track booking success
   const [bookingError, setBookingError] = useState(""); // New state to track booking error
-  const [animation, setAnimation] = useState(false); // State to track if animation should be applied
 
   const { user } = useContext(AuthContext);
-
+const navigate=useNavigate()
   const loadedRoom = useLoaderData();
 
   useEffect(() => {
     if (loadedRoom) {
-      const signData = loadedRoom.find((item) => item._id == id);
+      const signData = loadedRoom.find((item) => item._id === id);
       setSingleData(signData);
     }
   }, [loadedRoom, id]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("roomDetails");
-      if (element) {
-        const boundingClientRect = element.getBoundingClientRect();
-        const top = boundingClientRect.top;
-        if (top >= 0 && top <= window.innerHeight) {
-          setAnimation(true);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const {
     images,
@@ -66,11 +49,48 @@ const RoomDetails = () => {
   };
 
   const handleBookNow = async () => {
-    // Booking logic remains the same
+    if (availability === "Yes") {
+      if (!user) {
+        return;
+      }
+      const userEmail = user.email;
+      const userName = user.displayName;
+      try {
+        const response = await axios.get(`https://hotel-booking-platform-server-side.vercel.app/bookings?userEmail=${userEmail}&roomId=${id}`,{ withCredentials: true });
+        const existingBookings = response.data;
+        if (existingBookings.length > 0) {
+          Swal.fire("You have already booked this room.", "", "warning");
+          return;
+        } else {
+          const bookingData = {
+            roomId: id,
+            name,
+            images,
+            description,
+            price_per_night,
+            room_size,
+            availability,
+            special_offers,
+            userEmail,
+            userName,
+            bookingDate,
+          };
+          await axios.post("https://hotel-booking-platform-server-side.vercel.app/bookings", bookingData);
+          setBookingSuccess(true);
+          setShowBookingSummary(false); 
+        }
+      } catch (error) {
+        setBookingError("This room is already booked.Try to book others room.");
+      } finally {
+        setBookingLoading(false);
+      }
+    } else {
+      Swal.fire("Room not available", "", "error");
+    }
   };
 
   return (
-    <div id="roomDetails" className={`room-details ${animation ? 'aos-animate' : ''}`}>
+    <div id="roomDetails" className="room-details">
       <div>
         <div className="justify-center m-auto px-5 p-3 mb-3 min-h-screen  items-center flex-col flex">
           <section className="lg:flex border rounded-lg shadow-lg">
@@ -145,59 +165,62 @@ const RoomDetails = () => {
                 </div>
                 <div className="flex justify-center gap-5 items-center mx-2">
                   <button
-                    className="bg-green-500 btn-sm text-white px-4 rounded-lg"
-                    onClick={handleBookNow}
-                  >
-                    Confirm Booking
-                  </button>
-                  <button
-                    className="bg-red-500 text-white btn-sm px-4 rounded-lg"
-                    onClick={() => setShowBookingSummary(false)} // Close booking summary on cancel
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          {bookingSuccess && (
-            <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
-              <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
-                <h2 className="text-2xl font-bold text-green-500 mb-4">Booking Success</h2>
-                <p className="mb-4">Your booking for {name} has been confirmed.</p>
-                <button
-                  className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
-                  onClick={() => {
-                    setBookingSuccess(false);
-                    Navigate("/mybookings"); // Navigate back to the previous page
+                   
+                   className="bg-green-500 btn-sm text-white px-4 rounded-lg"
+                   onClick={handleBookNow}
+                 >
+                   Confirm Booking
+                 </button>
+                 <button
+                   className="bg-red-500 text-white btn-sm px-4 rounded-lg"
+                   onClick={() => setShowBookingSummary(false)} // Close booking summary on cancel
+                 >
+                   Cancel
+                 </button>
+               </div>
+             </div>
+           </div>
+         )}
+         {bookingSuccess && (
+           <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
+             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+               <h2 className="text-2xl font-bold text-green-500 mb-4">Booking Success</h2>
+               <p className="mb-4">Your booking for {name} has been confirmed.</p>
+               <button
+                 className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
+                 onClick={() => {
+                   setBookingSuccess(false);
+                   Navigate("/mybookings"); // Navigate back to the previous page
+                 }}
+               >
+                 Close
+               </button>
+             </div>
+           </div>
+         )}
+         {bookingError && (
+           <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
+               <h2 className="text-2xl font-bold text-red-500 mb-4">Sorry to Say</h2>
+               <p className="mb-4">{bookingError}</p>
+               <button
+                 className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
+                 onClick={() => {
+                   setBookingSuccess(false);
+                   setBookingError(false);
+                   navigate("/rooms")
+
                   }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
-          {bookingError && (
-            <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
-              <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
-                <h2 className="text-2xl font-bold text-red-500 mb-4">Sorry to Say</h2>
-                <p className="mb-4">{bookingError}</p>
-                <button
-                  className="bg-blue-500 btn-sm text-white px-4 rounded-lg"
-                  onClick={() => {
-                    setBookingSuccess(false);
-                    Navigate("/mybookings"); // Navigate back to the previous page
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+               >
+                 Close
+               </button>
+             </div>
+           </div>
+         )}
+       </div>
+     </div>
+   </div>
+ );
 };
 
 export default RoomDetails;

@@ -24,21 +24,11 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>,
-                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
 
             },
             {
                 path: '/rooms',
                 element: <Rooms></Rooms>,
-                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
-
-
-            },
-            {
-                path: '/rooms/:id',
-                element: <Rooms></Rooms>,
-                loader: () => fetch('https://hotel-booking-platform-server-side.vercel.app/services')
-
 
             },
             

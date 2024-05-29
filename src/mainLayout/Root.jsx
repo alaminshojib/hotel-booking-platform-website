@@ -20,7 +20,7 @@ function Root() {
     return (
         <div className={isDarkMode ? 'dark' : 'light' }>
             <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode}></Navbar>
-            <div className='px-2 lg:px-5 rounded-md '><Outlet></Outlet></div>
+            <div ><Outlet></Outlet></div>
             <Footer></Footer>
         </div>
     );

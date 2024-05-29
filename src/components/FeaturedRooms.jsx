@@ -32,12 +32,12 @@ const FeaturedRooms = () => {
        
       <h1
         className='mx-auto text-center  md:m-5 m-2 md:text-3xl text-lg font-bold '
-        data-aos="fade-up" // Apply fade-up animation to this element
+        data-aos="fade-down" // Apply fade-up animation to this element
       >
         <Typewriter
           words={['Luxurious Featured Accommodations ']}
           loop={0}
-          typeSpeed={250}
+          typeSpeed={0}
           deleteSpeed={0}
           delaySpeed={0}
           cursor={null}

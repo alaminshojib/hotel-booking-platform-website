@@ -221,7 +221,7 @@ const Booked = ({ data, setRooms }) => {
     return (
         <div>
             {reviewError && (
-                <div className="fixed top-0 left-0 w-full h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full z-[3] h-full text-black bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Thanks for the interest</h2>
                         <p className="mb-4">{reviewError}</p>
@@ -235,7 +235,7 @@ const Booked = ({ data, setRooms }) => {
                 </div>
             )}
             {showReviewModal && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full z-[3] h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg text-black shadow-lg max-w-md">
                         <h2 className="text-md font-bold mb-4">Write a Review</h2>
                         <form onSubmit={handleSubmitReview}>
@@ -271,22 +271,33 @@ const Booked = ({ data, setRooms }) => {
                                     className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
                                 />
                             </div>
-                            <div className="mb-2">
-                                <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating:</label>
-                                <input
-                                    placeholder='Give Rating'
-                                    id="rating"
-                                    type="number"
-                                    step="0.1" 
-                                    value={rating || ''} 
-                                    onChange={(e) => setRating(e.target.value)} 
-                                    className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
-                                />
-                            </div>
+                            <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating:</label>
+                            <select
+                                required
+                                id="rating"
+                                value={rating || ''}
+                                onChange={(e) => {
+                                    const value = parseFloat(e.target.value);
+                                    if (!isNaN(value) && value >= 1 && value <= 5) {
+                                        setRating(value);
+                                    }
+                                }}
+                                className="border bg-white border-gray-300 rounded p-1 mb-1 w-full"
+                            >
+                                <option value="">Select Rating</option>
+                                <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734;</option>
+                                <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734;</option>
+                                <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734;</option>
+                                <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734;</option>
+                                <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                            </select>
+
+
 
                             <div className="mb-2">
                                 <label htmlFor="reviewText" className="block text-sm font-medium text-gray-700">Review:</label>
                                 <textarea
+                                    required
                                     id="reviewText"
                                     value={reviewText}
                                     onChange={(e) => setReviewText(e.target.value)}
@@ -298,14 +309,14 @@ const Booked = ({ data, setRooms }) => {
                                 <button
                                     type="submit"
                                     disabled={loading || !reviewText.trim()}
-                                    className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+                                    className="bg-blue-500 hover:bg-blue-700 cursor-pointer text-white py-2 px-4 rounded-lg"
                                 >
                                     {loading ? 'Submitting...' : 'Leave a Review'}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setShowReviewModal(false)}
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
+                                    className="bg-red-500 hover:bg-red-700 cursor-pointer text-white font-bold py-2 px-4 rounded-lg"
                                 >
                                     Cancel
                                 </button>
@@ -317,7 +328,7 @@ const Booked = ({ data, setRooms }) => {
 
 
             {deletedSuccess && (
-                <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full z-[3] text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Deleted Successfully</h2>
                         <p className="mb-4">Your booking for {selectedRoom.name} has been confirmed.</p>
@@ -337,7 +348,7 @@ const Booked = ({ data, setRooms }) => {
 
             {/* Update Booking Summary Modal */}
             {showBookingSummary && (
-                <div className="fixed top-0 left-0 w-full text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
+                <div className="fixed top-0 left-0 w-full z-[3] text-black h-full bg-gray-800 bg-opacity-75 flex justify-center items-center">
                     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md">
                         <h2 className="text-2xl font-bold mb-4">Update Booking</h2>
                         <p className="mb-4">Room: {selectedRoom.name}</p>
@@ -386,16 +397,16 @@ const Booked = ({ data, setRooms }) => {
                 </div>
                 <Link to={`/roomDetails/${data.roomId}`}>
                     <div>
-                        <div className=" py-1 lg:py-2 mx-auto justify-center lg:w-2/3">
-                            <div className="font-bold text-xs mb-1">{data.name}</div>
-                            <p className="text-orange-400 text-xs font-bold">
-                                Price : ${data.price_per_night}
+                        <div className=" py-1 lg:py-2 mx-auto justify-center text-center lg:w-2/3">
+                            <div className="font-semibold text-xs lg:text-lg mb-1">{data.name}</div>
+                            <p className="text-xs hidden lg:block my-1">
+                                Price Per Night: <span className='text-blue-600 '>${data.price_per_night}</span>
                             </p>
 
 
                         </div>
                     </div>
-                    <div className="flex md:flex-row flex-col justify-start w-fit gap-2 py-1 md:mx-auto md:justify-center">
+                    <div className="flex md:flex-row flex-col justify-center w-fit gap-2 py-1 mx-auto ">
                         <Link
                             className="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 font-bol py-1  lg:px-4 rounded-lg"
                             onClick={() => handleUpdateDate(data._id, data)}
@@ -413,11 +424,11 @@ const Booked = ({ data, setRooms }) => {
                 </Link>
                 <div>
                     <div className="flex flex-col w-fit space-y-1 mx-auto justify-center">
-                        <p className="text-gray-600 text-xs text-md font-semibold text-center mb-2">
+                        <p className=" text-xs lg:text-lg  text-center mb-2">
                             Booking Date: <span className='font-bold'>{new Date(data.bookingDate).toLocaleDateString()}</span>
                         </p>
                         <Link
-                            className="bg-blue-500 hover:bg-blue-700 text-white  font-bol py-1  lg:px-4 rounded-lg"
+                            className="bg-blue-500 hover:bg-blue-700 text-white w-fit mx-auto flex font-bol py-1  lg:px-4 rounded-lg"
                             onClick={handleReviewButtonClick}
                         >
                             <div className='flex justify-center gap-1 text-xs items-center'><MdOutlineReviews /><p>Leave a Review </p></div>

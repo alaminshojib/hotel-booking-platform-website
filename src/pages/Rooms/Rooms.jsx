@@ -15,7 +15,7 @@ const Rooms = () => {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch('https://hotel-booking-platform-server-side.vercel.app/services');
+      const response = await fetch('https://hotel-booking-platform-server-side.vercel.app/services',{ withCredentials: true });
       const data = await response.json();
 
       // Filter out rooms that are already booked
