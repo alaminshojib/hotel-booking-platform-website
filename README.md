@@ -43,3 +43,15 @@ Firebase Authentication ensures secure user registration and login processes, co
 Roomies aims to provide a user-friendly interface combined with robust backend functionalities to streamline the accommodation booking process, making it an ideal choice for travelers seeking convenience and reliability in their travel planning.
 
 
+## Getting Started
+
+To run this project locally, follow these steps:
+
+- Clone this repository: `git clone <repository-url>`
+- Navigate to the project directory: `cd art-craft-store`
+- Install dependencies for both frontend and backend:
+- Set up environment variables:
+1. Create a `.env` file in the `frontend` directory and add necessary environment variables.
+2. Create a `.env` file in the `backend` directory and add necessary environment variables.
+- Start the frontend and backend servers:
+- Open your browser and navigate to `http://localhost:3000` to view the application.
