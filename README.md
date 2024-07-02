@@ -48,7 +48,7 @@ Roomies aims to provide a user-friendly interface combined with robust backend f
 To run this project locally, follow these steps:
 
 - Clone this repository: `git clone <repository-url>`
-- Navigate to the project directory: `cd art-craft-store`
+- Navigate to the project directory: `cd hotel-booking-platform`
 - Install dependencies for both frontend and backend:
 - Set up environment variables:
 1. Create a `.env` file in the `frontend` directory and add necessary environment variables.
